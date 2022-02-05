@@ -102,6 +102,7 @@ public final class Constants {
         public static final int kLeftIntakePort = 11;
         public static final int kRightIntakePort =10;
         public static final int kIntakeSolenoidPort = 1;
+        public static final int kintakeMotorPort = 23;
     }
     
     public static final class CompressorConstant{
