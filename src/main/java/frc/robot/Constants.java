@@ -40,7 +40,7 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.22;
         public static final double kPDriveVel = .5; //2.24;   // 2.29
 
-        public static final double kTrackwidthMeters = 0.5541772;//CAD //.5715 Tape //0.59825 From Char Tool
+        public static final double kTrackwidthMeters = 0.648716;//CAD //.5715 Tape //0.59825 From Char Tool
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
 
@@ -49,8 +49,8 @@ public final class Constants {
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-        public static final double kMaxSpeedMetersPerSecond = 1.75; //3 Slalom
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1.75; //2 Slalom 
+        public static final double kMaxSpeedMetersPerSecond = 1.75;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1.75;
 
         public static final boolean kGyroReversed = true;
 
@@ -63,12 +63,7 @@ public final class Constants {
         public static final int kRightShooterPort = 5;
         public static final int kLeftShooterPort = 6;
 
-        public static final int kHoodSolendoidPort = 0;
-
-        public static final int kShooterSolenoidPort = 0;
-
         public static final double kShooterVoltageRampRate = 0.2;
-
 
         public static final double kShooterP = 0.0075;
         public static final double kShooterI = 0; //1
@@ -78,39 +73,6 @@ public final class Constants {
         public static final int kAllowableError = 50;
         public static final int kPIDLoopRate = 10; //In ms
         public static final int kMaxIntegralAccumulator = 1000;
-
-        public static final double klimeLightHeight = 18.5;//inches
-        public static final double ktargetHeight = 89.75;//inches
-        public static final double kCameraAngle = 25;
-    }
-    public static final class ClimberConstants{
-        public static final int kClimberPort = 14;
-    }
-
-    public static final class OIConstants{
-        public static final int kDriverControllerPort = 0;
-       public static final int kDriverController2Port = 1;
-    }
-    
-    public static final class HopperConstants{
-        public static final int kHopperLeftPort = 7;
-        public static final int kHopperRightPort = 9;
-        public static final int kFeederPort = 8;
-    }
-
-    public static final class IntakeConstants{
-        public static final int kLeftIntakePort = 11;
-        public static final int kRightIntakePort =10;
-        public static final int kIntakeSolenoidPort = 1;
-        public static final int kintakeMotorPort = 23;
-    }
-    
-    public static final class CompressorConstant{
-        public static final int kCompressor = 0;
-    }
-
-    public static final class GainsConstants{
-        
     }
 
 

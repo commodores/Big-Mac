@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
@@ -29,8 +29,6 @@ public class Shooter extends SubsystemBase {
           new TalonFX(ShooterConstants.kRightShooterPort),
   };
 
-  private final Solenoid hoodSolenoid;
-
   public double rpmOutput;
   public double rpmTolerance = 2.0;
 
@@ -41,8 +39,6 @@ public class Shooter extends SubsystemBase {
   //    public SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
 
   public Shooter() {
-
-      hoodSolenoid = new Solenoid(ShooterConstants.kHoodSolendoidPort);
 
       // Setup shooter motors (Falcons)
       for (TalonFX shooterMotor : shooterMotors) {
@@ -118,13 +114,6 @@ public class Shooter extends SubsystemBase {
       return (RPM / 600.0) * 2048.0;
   }
 
-  public void hoodUp(){
-      hoodSolenoid.set(true);
-  }
-
-  public void hoodDown(){
-      hoodSolenoid.set(false);
-  }
 
   @Override
   public void periodic() {
