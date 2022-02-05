@@ -5,112 +5,120 @@
 package frc.robot.subsystems;
 
 public class Shooter extends SubsystemBase {
-  /**
-   * Initializes the SparkMAX motor controller, assigns it to the CAN address
-   * specified, and sets it to the NEO Brushless Motor.
-   */
-  private final CANSparkMax shooterMAXLeft = new CANSparkMax(ShooterConstants.kshooterMotor1Port,
-      CANSparkMaxLowLevel.MotorType.kBrushless);
-  private final CANSparkMax shooterMAXRight = new CANSparkMax(ShooterConstants.kshooterMotor2Port,
-      CANSparkMaxLowLevel.MotorType.kBrushless);
-  private CANEncoder m_encoder;
-  /**
-   * The built-in PID controller provided by the Spark MAX motor controller.
-   */
-  private final CANPIDController shooterPIDLeft;
-  /**
-   * The target velocity of the NEO Brushless Motor.
-   */
-  private double shooterSetpoint = 3750;
-  /**
-   * The Proportial Gain of the SparkMAX PIDF controller The weight of the
-   * proportional path against the differential and integral paths is controlled
-   * by this value.
-   */
-  private final double kP = .00065;
-  /**
-   * The Integral Gain of the SparkMAX PIDF controller The weight of the integral
-   * path against the proportional and differential paths is controlled by this
-   * value.
-   */
-  private final double kI = 0;
-  /**
-   * The Differential Gain of the SparkMAX PIDF controller. The weight of the
-   * differential path against the proportional and integral paths is controlled
-   * by this value.
-   */
-  private final double kD = 0;
-  /**
-   * The Integral Zone of the SparkMAX PIDF controller. The integral accumulator
-   * will reset once it hits this value.
-   */
-  private final double kIz = 0;
-  /**
-   * The Feed-Forward Gain of the SparkMAX PIDF controller. The weight of the
-   * feed-forward loop as compared to the PID loop is controlled by this value.
-   */
-  private final double kFF = 0.000177;
-  /**
-   * Scales the output of the SparkMAX PIDF controller.
-   */
-  private final double maxOutput = 1.0;
-  private final double minOutput = -1.0;
-  private final double maxRPM = 5700;
-  /**
-   * The maximum current the motor controller is allowed to feed to the motor, in
-   * amps.
-   */
-  private final int currentLimit = 40;
+  // PID loop constants
+  private double kF = ShooterConstants.kShooterF;
+  private double kP = ShooterConstants.kShooterP;
+  private double kI = ShooterConstants.kShooterI;
+  private double kD = ShooterConstants.kShooterD;
+
+  public int kI_Zone = 100;
+  public int kAllowableError = 50;
+
+  private TalonFX[] shooterMotors = {
+          new TalonFX(ShooterConstants.kLeftShooterPort),
+          new TalonFX(ShooterConstants.kRightShooterPort),
+  };
+
+  private final Solenoid hoodSolenoid;
+
+  public double rpmOutput;
+  public double rpmTolerance = 2.0;
+
+  private double setpoint;
+
+
+  //    public PIDController flywheelController = new PIDController(kP, kI, kD);
+  //    public SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
 
   public Shooter() {
-    shooterMAXLeft.restoreFactoryDefaults();
-    shooterMAXRight.restoreFactoryDefaults();
 
-    shooterPIDLeft = shooterMAXLeft.getPIDController();
-    m_encoder = shooterMAXLeft.getEncoder();
+      hoodSolenoid = new Solenoid(ShooterConstants.kHoodSolendoidPort);
 
-    // Applies the previously-declared values to the PIDF controller.
-    shooterPIDLeft.setP(kP);
-    shooterPIDLeft.setI(kI);
-    shooterPIDLeft.setD(kD);
-    shooterPIDLeft.setIZone(kIz);
-    shooterPIDLeft.setFF(kFF);
-    shooterPIDLeft.setOutputRange(minOutput, maxOutput);
-    // Sets the shooter motor to coast so that subsequent shots don't have to rev up
-    // from 0 speed.
-    shooterMAXLeft.setIdleMode(IdleMode.kCoast);
-    shooterMAXRight.setIdleMode(IdleMode.kCoast);
-    shooterMAXLeft.setSmartCurrentLimit(currentLimit);
-    shooterMAXRight.setSmartCurrentLimit(currentLimit);
-    // Sets the left shooter motor to follow the right motor, and be inverted.
-    shooterMAXRight.follow(shooterMAXLeft, true);
+      // Setup shooter motors (Falcons)
+      for (TalonFX shooterMotor : shooterMotors) {
+          shooterMotor.configFactoryDefault();
+          shooterMotor.setNeutralMode(NeutralMode.Coast);
+          shooterMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 30, 0, 0));
+          shooterMotor.configVoltageCompSaturation(11);
+          shooterMotor.enableVoltageCompensation(true);
+      }
+      shooterMotors[0].setInverted(false);
+      shooterMotors[1].setInverted(true);
+      shooterMotors[1].follow(shooterMotors[0], FollowerType.PercentOutput);
+
+      shooterMotors[0].config_kF(0, kF);
+      shooterMotors[0].config_kP(0, kP);
+      shooterMotors[0].config_kI(0, kI);
+      shooterMotors[0].config_IntegralZone(0, kI_Zone);
+      shooterMotors[0].config_kD(0, kD);
+      shooterMotors[0].configAllowableClosedloopError(0, kAllowableError);
+      shooterMotors[0].configClosedloopRamp(0);
+      shooterMotors[1].configClosedloopRamp(0);
+      shooterMotors[1].configOpenloopRamp(0);
   }
 
-  /**
-   * Passes a preset velocity to the SparkMAX PIDF controller and lets it manage
-   * the NEO's velocity. Intended to be called when a button is pressed.
-   */
-  public void shoot(double setPoint) {
-    shooterPIDLeft.setReference(setPoint, ControlType.kVelocity);
+  public double getMotorInputCurrent(int motorIndex) {
+      return shooterMotors[motorIndex].getSupplyCurrent();
   }
 
-  /**
-   * Stops the shooter motor. Note: the NEO is set to Coast. Intended to be called
-   * when a button is released.
-   */
-  public void stopShooter() {
-    shooterMAXLeft.stopMotor();
+  public void setPower(double output) {
+      shooterMotors[0].set(ControlMode.PercentOutput, output);
   }
 
-  public void setSetpoint(double newPoint) {
-    shooterSetpoint = newPoint;
+  public void setRPM(double setpoint) {
+      this.setpoint = setpoint;
   }
 
+  public double getSetpoint() {
+      return setpoint;
+  }
 
+  private void updateRPMSetpoint() {
+      if (setpoint >= 0)
+          shooterMotors[0].set(ControlMode.Velocity, RPMtoFalconUnits(setpoint));
+      else
+          setPower(0);
+  }
+
+  public void setTestRPM() {
+      shooterMotors[0].set(ControlMode.Velocity, RPMtoFalconUnits(rpmOutput));
+  }
+
+  public double getTestRPM() {
+      return rpmOutput;
+  }
+
+  public double getRPMTolerance() {
+      return rpmTolerance;
+  }
+
+  public boolean encoderAtSetpoint(int motorIndex) {
+      return (Math.abs(shooterMotors[motorIndex].getClosedLoopError()) < 100.0);
+  }
+
+  public double getRPM(int motorIndex) {
+      return falconUnitsToRPM(shooterMotors[motorIndex].getSelectedSensorVelocity());
+  }
+
+  public double falconUnitsToRPM(double sensorUnits) {
+      return (sensorUnits / 2048.0) * 600.0;
+  }
+
+  public double RPMtoFalconUnits(double RPM) {
+      return (RPM / 600.0) * 2048.0;
+  }
+
+  public void hoodUp(){
+      hoodSolenoid.set(true);
+  }
+
+  public void hoodDown(){
+      hoodSolenoid.set(false);
+  }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("SetPoint", shooterSetpoint);
-    SmartDashboard.putNumber("ProcessVariable", m_encoder.getVelocity());
+      updateRPMSetpoint();
+      SmartDashboard.putNumber("Shooter RPM", falconUnitsToRPM(shooterMotors[0].getSelectedSensorVelocity()));
   }
 }

@@ -6,21 +6,20 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.DriveManual;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
+
 
 
 public class DriveTrain extends SubsystemBase {
@@ -33,15 +32,14 @@ public class DriveTrain extends SubsystemBase {
 
   private PigeonIMU pigeon;
 
-  private SpeedControllerGroup left_falcons;
-  private SpeedControllerGroup right_falcons;
+  private MotorControllerGroup left_falcons;
+  private MotorControllerGroup right_falcons;
 
   private final DifferentialDrive m_drive;
 
   private DifferentialDriveOdometry m_odometry;
 
   private SlewRateLimiter m_speedSlew = new SlewRateLimiter(6);
-  private SlewRateLimiter m_turnSlew = new SlewRateLimiter(6);
 
   public DriveTrain() {//DriveTrain Electronics
     rightMasterMotor = new WPI_TalonFX(DriveConstants.kRightMasterPort);
@@ -73,8 +71,8 @@ public class DriveTrain extends SubsystemBase {
     rightMasterMotor.configStatorCurrentLimit(DriveConstants.TALON_CURRENT_LIMIT);
     rightSlaveMotor.configStatorCurrentLimit(DriveConstants.TALON_CURRENT_LIMIT);   
 
-    left_falcons = new SpeedControllerGroup(leftMasterMotor, leftSlaveMotor);
-    right_falcons = new SpeedControllerGroup(rightMasterMotor, rightSlaveMotor);
+    left_falcons = new MotorControllerGroup(leftMasterMotor, leftSlaveMotor);
+    right_falcons = new MotorControllerGroup(rightMasterMotor, rightSlaveMotor);
 
     left_falcons.setInverted(true);
     right_falcons.setInverted(true);
@@ -84,17 +82,12 @@ public class DriveTrain extends SubsystemBase {
 
     m_drive = new DifferentialDrive(left_falcons, right_falcons);
 
-    m_drive.setRightSideInverted(true);
-
-    //m_drive.setDeadband(.05);
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
 
     zeroSensors();
   }
 
-  
-}
 
   @Override
   public void periodic() {
