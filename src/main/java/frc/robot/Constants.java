@@ -75,5 +75,8 @@ public final class Constants {
         public static final int kMaxIntegralAccumulator = 1000;
     }
 
-
+    public static final class OIConstants{
+        public static final int kDriverControllerPort = 0;
+       public static final int kDriverController2Port = 1;
+    }
 }

@@ -4,11 +4,25 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+//import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+//import edu.wpi.first.wpilibj.XboxController.Button;
+//import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.OIConstants;
+//import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DriveManual;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,14 +32,28 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //public final DriveTrain m_drivetrain = new DriveTrain();
+  public final DriveTrain m_drivetrain = new DriveTrain();
+  public final Climber m_Climber = new Climber();
+  public final Intake m_intake = new Intake();
+  public final Shooter m_shooter = new Shooter();
+  public final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  
+  public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    /* Initialize various systems on robotInit. */
+    this.initializeStartup();
+
+    /* Initialize autonomous command chooser and display on the SmartDashboard. */
+    this.initializeAutoChooser();
   }
 
   /**
@@ -34,15 +62,61 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    //Shooter
+
+    //new JoystickButton(m_driverController, Button.kBumperLeft.value)
+    //  .whenPressed(() -> m_shooter.setRPM(1900))
+    //  .whenReleased(() -> m_shooter.setRPM(-1));
+
+    //new JoystickButton(m_driverController, Button.kBumperRight.value)
+    //  .whenPressed(() -> m_shooter.setRPM(2000))
+    //  .whenReleased(() -> m_shooter.setRPM(-1));
+
+    //new JoystickButton(m_driver2Controller, Button.kBack.value)
+    //  .whenPressed(()-> m_shooter.setRPM(1000));
+
+    //new JoystickButton(m_driver2Controller, Button.kStart.value)
+    //  .whenPressed(() -> m_shooter.setRPM(-1));
+
+    //Intake
+
+    // new JoystickButton(m_driver2Controller, Button.kA.value)
+    //  .whileHeld(() -> m_intake.runIntake(-1))
+    //  .whenReleased(() -> m_intake.stopIntake());
+
+    //new JoystickButton(m_driver2Controller, Button.kB.value)
+    //.whileHeld(() -> m_intake.runIntake(1))
+    //.whenReleased(() -> m_intake.stopIntake());
+
+    //Climber
+
+  }
+
+  private void initializeStartup() {
+    
+    //SmartDashboard.putData("Ramp it up!!", new AutoShoot());
+    m_drivetrain.setDefaultCommand(
+      new DriveManual(m_drivetrain));
+  }
 
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
+   * Set options for autonomous command chooser and display them for selection on the SmartDashboard.
+   * Using string chooser rather than command chooser because if using a command chooser, will instantiate
+   * all the autonomous commands. This may cause problems (e.g. initial trajectory position is from a
+   * different command's path).
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+  private void initializeAutoChooser()
+  {
+    /* Add options (which autonomous commands can be selected) to chooser. */
+    m_autoChooser.setDefaultOption("Do Nothing", "doNothing");
+    m_autoChooser.addOption("2 Ball Auto", "twoball");
+    m_autoChooser.addOption("3 Ball Auto", "threeball");
+    m_autoChooser.addOption("5 Ball Auto", "fiveball");
+
+    /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
+    SmartDashboard.putData("Autonomous Command", m_autoChooser);
+    
   }
 }
