@@ -35,7 +35,7 @@ public class ExampleCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
+  // Returns true when the command should end. YAS!
   @Override
   public boolean isFinished() {
     return false;
