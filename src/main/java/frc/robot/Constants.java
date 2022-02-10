@@ -79,4 +79,10 @@ public final class Constants {
         public static final int kDriverControllerPort = 0;
        public static final int kDriverController2Port = 1;
     }
+
+   public static final class ClimberConstants{
+        public static final int kClimberElevatePort = 10;
+       public static final int kClimberRotatePort = 11;
+    }
 }
+
