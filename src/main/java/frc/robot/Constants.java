@@ -84,5 +84,13 @@ public final class Constants {
         public static final int kClimberElevatePort = 10;
        public static final int kClimberRotatePort = 11;
     }
+
+    public static final class IntakeConstants{
+        public static final int kIntakeSolenoidPort = 0;
+        public static final int kIntakeMotor1Port = 7;
+        public static final int kIntakeMotor2Port = 8;
+        public static final int kIntakeMotor3Port = 9;
+
+    }
 }
 
