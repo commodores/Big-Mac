@@ -19,11 +19,11 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 public final class Constants {
 
     public static final class DriveConstants {
-        public static final int kLeftMasterPort = 3;
-        public static final int kLeftSlavePort = 4;
+        public static final int kLeftMasterPort = 13;
+        public static final int kLeftSlavePort = 14;
 
-        public static final int kRightMasterPort = 2;
-        public static final int kRightSlavePort = 1;
+        public static final int kRightMasterPort = 12;
+        public static final int kRightSlavePort = 11;
 
         public static final int kPigeonPort = 12;
 
@@ -60,8 +60,8 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final int kRightShooterPort = 5;
-        public static final int kLeftShooterPort = 6;
+        public static final int kRightShooterPort = 15;
+        public static final int kLeftShooterPort = 16;
 
         public static final double kShooterVoltageRampRate = 0.2;
 
@@ -77,20 +77,20 @@ public final class Constants {
 
     public static final class OIConstants{
         public static final int kDriverControllerPort = 0;
-       public static final int kDriverController2Port = 1;
-    }
-
-   public static final class ClimberConstants{
-        public static final int kClimberElevatePort = 10;
-       public static final int kClimberRotatePort = 11;
+        public static final int kDriverController2Port = 1;
     }
 
     public static final class IntakeConstants{
         public static final int kIntakeSolenoidPort = 0;
-        public static final int kIntakeMotor1Port = 7;
-        public static final int kIntakeMotor2Port = 8;
-        public static final int kIntakeMotor3Port = 9;
+        public static final int kIntakeMotor1Port = 17;
+        public static final int kIntakeMotor2Port = 18;
+        public static final int kIntakeMotor3Port = 19;
 
+    }
+
+    public static final class ClimberConstants{
+        public static final int kClimberElevatePort = 20;
+       public static final int kClimberRotatePort = 21;
     }
 }
 

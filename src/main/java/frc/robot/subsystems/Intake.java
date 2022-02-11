@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,17 +15,19 @@ import frc.robot.Constants.IntakeConstants;
 public class Intake extends SubsystemBase {
 
   private final WPI_TalonFX intake1;
-  private final WPI_TalonFX intake2;
-  private final WPI_TalonFX intake3;
 
-  private final Solenoid intakeSolenoid;
+  private final CANSparkMax intake2;
+  private final CANSparkMax intake3;
+
+  //private final Solenoid intakeSolenoid;
 
   public Intake() {
 
-    intakeSolenoid = new Solenoid(IntakeConstants.kIntakeSolenoidPort);
+    //intakeSolenoid = new Solenoid(IntakeConstants.kIntakeSolenoidPort);
     intake1 = new WPI_TalonFX(IntakeConstants.kIntakeMotor1Port);
-    intake2 = new WPI_TalonFX(IntakeConstants.kIntakeMotor2Port);
-    intake3 = new WPI_TalonFX(IntakeConstants.kIntakeMotor3Port);
+
+    intake2 = new CANSparkMax(IntakeConstants.kIntakeMotor2Port, MotorType.kBrushless);
+    intake3 = new CANSparkMax(IntakeConstants.kIntakeMotor3Port, MotorType.kBrushless);
 
 
   }
@@ -42,11 +46,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void extendIntake() {
-    intakeSolenoid.set(true);
+    //intakeSolenoid.set(true);
   }
 
   public void retractIntake() {
-    intakeSolenoid.set(false);
+    //intakeSolenoid.set(false);
   }
 
   @Override

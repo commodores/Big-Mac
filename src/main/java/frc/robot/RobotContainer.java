@@ -7,8 +7,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-//import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Climber;
@@ -20,6 +20,7 @@ import frc.robot.Constants.OIConstants;
 //import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveManual;
 
 
@@ -66,29 +67,23 @@ public class RobotContainer {
 
     //Shooter
 
-    //new JoystickButton(m_driverController, Button.kBumperLeft.value)
-    //  .whenPressed(() -> m_shooter.setRPM(1900))
-    //  .whenReleased(() -> m_shooter.setRPM(-1));
+    new JoystickButton(m_driverController, Button.kLeftBumper.value)
+      .whenPressed(() -> m_shooter.setRPM(400))
+      .whenReleased(() -> m_shooter.setRPM(-1));
 
-    //new JoystickButton(m_driverController, Button.kBumperRight.value)
-    //  .whenPressed(() -> m_shooter.setRPM(2000))
-    //  .whenReleased(() -> m_shooter.setRPM(-1));
-
-    //new JoystickButton(m_driver2Controller, Button.kBack.value)
-    //  .whenPressed(()-> m_shooter.setRPM(1000));
-
-    //new JoystickButton(m_driver2Controller, Button.kStart.value)
-    //  .whenPressed(() -> m_shooter.setRPM(-1));
+    new JoystickButton(m_driverController, Button.kRightBumper.value)
+      .whenPressed(() -> m_shooter.setRPM(600))
+      .whenReleased(() -> m_shooter.setRPM(-1));
 
     //Intake
 
-    // new JoystickButton(m_driver2Controller, Button.kA.value)
-    //  .whileHeld(() -> m_intake.runIntake(-1))
-    //  .whenReleased(() -> m_intake.stopIntake());
+    new JoystickButton(m_driverController, Button.kA.value)
+      .whileHeld(() -> m_intake.runIntake(-.5))
+      .whenReleased(() -> m_intake.stopIntake());
 
-    //new JoystickButton(m_driver2Controller, Button.kB.value)
-    //.whileHeld(() -> m_intake.runIntake(1))
-    //.whenReleased(() -> m_intake.stopIntake());
+    new JoystickButton(m_driverController, Button.kB.value)
+    .whileHeld(() -> m_intake.runIntake(.5))
+    .whenReleased(() -> m_intake.stopIntake());
 
     //Climber
 
@@ -117,6 +112,32 @@ public class RobotContainer {
 
     /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
+    
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    
+    switch (m_autoChooser.getSelected())
+    {
+      case "threeball":
+        //return new SimpleShoot();
+        //RobotContainer.m_drivetrain.setPos(Units.feetToMeters(3.5), Units.feetToMeters(-5));
+        //return new RunTrajectory(getSlalom());
+      case "sixball" :
+        //return new SixBallAuto();
+      
+      case "SecondAuto" :
+        //return new DefenseTrench();
+    
+      default:
+        System.out.println("\nError selecting autonomous command:\nCommand selected: " + m_autoChooser.getSelected() + "\n");
+        return null;
+    }
     
   }
 }
