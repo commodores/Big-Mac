@@ -25,7 +25,7 @@ public final class Constants {
         public static final int kRightMasterPort = 12;
         public static final int kRightSlavePort = 11;
 
-        public static final int kPigeonPort = 12;
+        public static final int kPigeonPort = 22;
 
         public static final int driveTimeout = 30;
 
