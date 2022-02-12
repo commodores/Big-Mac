@@ -78,11 +78,11 @@ public class RobotContainer {
     //Intake
 
     new JoystickButton(m_driverController, Button.kA.value)
-      .whileHeld(() -> m_intake.runIntake(-.5))
+      .whileHeld(() -> m_intake.runIntake(-.75))
       .whenReleased(() -> m_intake.stopIntake());
 
     new JoystickButton(m_driverController, Button.kB.value)
-    .whileHeld(() -> m_intake.runIntake(.5))
+    .whileHeld(() -> m_intake.runIntake(.75))
     .whenReleased(() -> m_intake.stopIntake());
 
     //Climber
