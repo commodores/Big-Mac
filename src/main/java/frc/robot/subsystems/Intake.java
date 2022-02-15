@@ -40,7 +40,7 @@ public class Intake extends SubsystemBase {
 
   public void runIntake(double speed){
     intake1.set(speed);
-    intake2.set(speed);
+    intake2.set(-speed);
     intake3.set(speed);
   }
 
@@ -51,11 +51,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void extendIntake() {
-    intakeSolenoid.set(true);
+    intakeSolenoid.set(false);
   }
 
   public void retractIntake() {
-    intakeSolenoid.set(false);
+    intakeSolenoid.set(true);
   }
 
   @Override
