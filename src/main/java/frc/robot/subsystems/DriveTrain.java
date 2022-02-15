@@ -75,7 +75,7 @@ public class DriveTrain extends SubsystemBase {
     right_falcons = new MotorControllerGroup(rightMasterMotor, rightSlaveMotor);
 
     left_falcons.setInverted(true);
-    right_falcons.setInverted(true);
+    right_falcons.setInverted(false);
 
     //leftMasterMotor.configOpenloopRamp(.2);
     //rightMasterMotor.configOpenloopRamp(.2);

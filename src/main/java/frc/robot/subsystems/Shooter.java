@@ -30,7 +30,7 @@ public class Shooter extends SubsystemBase {
   };
 
   public double rpmOutput;
-  public double rpmTolerance = 2.0;
+  public double rpmTolerance = 20.0;
 
   private double setpoint;
 

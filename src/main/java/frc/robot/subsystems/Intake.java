@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -19,6 +20,8 @@ public class Intake extends SubsystemBase {
   private final CANSparkMax intake2;
   private final CANSparkMax intake3;
 
+  private final Solenoid intakeSolenoid;
+
   //private final Solenoid intakeSolenoid;
 
   public Intake() {
@@ -28,6 +31,8 @@ public class Intake extends SubsystemBase {
 
     intake2 = new CANSparkMax(IntakeConstants.kIntakeMotor2Port, MotorType.kBrushless);
     intake3 = new CANSparkMax(IntakeConstants.kIntakeMotor3Port, MotorType.kBrushless);
+
+    intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
 
 
   }
@@ -46,11 +51,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void extendIntake() {
-    //intakeSolenoid.set(true);
+    intakeSolenoid.set(true);
   }
 
   public void retractIntake() {
-    //intakeSolenoid.set(false);
+    intakeSolenoid.set(false);
   }
 
   @Override

@@ -9,15 +9,11 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-//import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants.OIConstants;
-//import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +34,6 @@ public class RobotContainer {
   public final Climber m_Climber = new Climber();
   public final Intake m_intake = new Intake();
   public final Shooter m_shooter = new Shooter();
-  public final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
@@ -68,22 +63,28 @@ public class RobotContainer {
     //Shooter
 
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
-      .whenPressed(() -> m_shooter.setRPM(400))
+      .whenPressed(() -> m_shooter.setRPM(3000 ))
       .whenReleased(() -> m_shooter.setRPM(-1));
 
     new JoystickButton(m_driverController, Button.kRightBumper.value)
-      .whenPressed(() -> m_shooter.setRPM(600))
+      .whenPressed(() -> m_shooter.setRPM(5300))
       .whenReleased(() -> m_shooter.setRPM(-1));
 
     //Intake
 
-    new JoystickButton(m_driverController, Button.kA.value)
-      .whileHeld(() -> m_intake.runIntake(-.75))
+    new JoystickButton(m_driver2Controller, Button.kA.value)
+      .whileHeld(() -> m_intake.runIntake(-1.0))
       .whenReleased(() -> m_intake.stopIntake());
 
-    new JoystickButton(m_driverController, Button.kB.value)
-    .whileHeld(() -> m_intake.runIntake(.75))
+    new JoystickButton(m_driver2Controller, Button.kB.value)
+    .whileHeld(() -> m_intake.runIntake(1.0))
     .whenReleased(() -> m_intake.stopIntake());
+
+    new JoystickButton(m_driver2Controller, Button.kX.value)
+    .whenPressed(() -> m_intake.extendIntake());
+
+    new JoystickButton(m_driver2Controller, Button.kY.value)
+    .whenPressed(() -> m_intake.retractIntake());
 
     //Climber
 
