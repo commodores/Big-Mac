@@ -63,11 +63,11 @@ public class RobotContainer {
     //Shooter
 
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
-      .whenPressed(() -> m_shooter.setRPM(3000 ))
+      .whenPressed(() -> m_shooter.setRPM(3150))
       .whenReleased(() -> m_shooter.setRPM(-1));
 
     new JoystickButton(m_driverController, Button.kRightBumper.value)
-      .whenPressed(() -> m_shooter.setRPM(5300))
+      .whenPressed(() -> m_shooter.setRPM(4750))
       .whenReleased(() -> m_shooter.setRPM(-1));
 
     //Intake
