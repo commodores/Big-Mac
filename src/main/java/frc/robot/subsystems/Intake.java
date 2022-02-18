@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -29,8 +31,13 @@ public class Intake extends SubsystemBase {
     //intakeSolenoid = new Solenoid(IntakeConstants.kIntakeSolenoidPort);
     intake1 = new WPI_TalonFX(IntakeConstants.kIntakeMotor1Port);
 
+    intake1.setNeutralMode(NeutralMode.Brake);
+
     intake2 = new CANSparkMax(IntakeConstants.kIntakeMotor2Port, MotorType.kBrushless);
     intake3 = new CANSparkMax(IntakeConstants.kIntakeMotor3Port, MotorType.kBrushless);
+
+    intake2.setIdleMode(IdleMode.kBrake);
+    intake3.setIdleMode(IdleMode.kBrake);
 
     intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
 
