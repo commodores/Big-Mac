@@ -88,6 +88,24 @@ public class RobotContainer {
 
     //Climber
 
+    new JoystickButton(m_driverController, Button.kY.value)
+    .whileHeld(() -> m_Climber.climberElevate(.5))
+    .whenReleased(() -> m_Climber.stopClimberElevate());
+
+    new JoystickButton(m_driverController, Button.kA.value)
+    .whileHeld(() -> m_Climber.climberElevate(-.5))
+    .whenReleased(() -> m_Climber.stopClimberElevate());
+
+    new JoystickButton(m_driverController, Button.kX.value)
+    .whileHeld(() -> m_Climber.climberRotate(.5))
+    .whenReleased(() -> m_Climber.stopClimberRotate());
+
+    new JoystickButton(m_driverController, Button.kB.value)
+    .whileHeld(() -> m_Climber.climberRotate(-.5))
+    .whenReleased(() -> m_Climber.stopClimberRotate());
+
+
+
   }
 
   private void initializeStartup() {
