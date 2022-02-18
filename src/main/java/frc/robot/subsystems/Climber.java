@@ -4,10 +4,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -25,35 +27,44 @@ public class Climber extends SubsystemBase {
     ClimberElevate.configFactoryDefault();
     ClimberElevate.setNeutralMode(NeutralMode.Brake);
     ClimberElevate.set(ControlMode.PercentOutput, 0.0);
+    ClimberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
   
    ClimberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
     ClimberRotate.configFactoryDefault();
     ClimberRotate.setNeutralMode(NeutralMode.Brake);
     ClimberRotate.set(ControlMode.PercentOutput, 0.0);
-    
+    ClimberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
   }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
-  public void ClimberUp(double speed){
-    ClimberElevate.set(ControlMode.PercentOutput, speed);
-     ClimberRotate.set(ControlMode.PercentOutput, speed);
 
-  
+    SmartDashboard.putNumber("ClimberRotate Motor", ClimberRotate.getSelectedSensorPosition());
+    SmartDashboard.putNumber("ClimberElevate Motor", ClimberElevate.getSelectedSensorPosition());
   }
-public void ClimberDown(double speed){
-    ClimberElevate.set(ControlMode.PercentOutput, speed);
-     ClimberRotate.set(ControlMode.PercentOutput, speed);
-     
-  
+  public void climberElevate(double speed){
+    ClimberElevate.set(ControlMode.PercentOutput, speed);  
   }
 
-  public void StopClimber(){
+  public void climberRotate(double speed){
+    ClimberRotate.set(ControlMode.PercentOutput, speed); 
+  }
+
+
+  public void stopClimberElevate(){
     ClimberElevate.set(ControlMode.PercentOutput, 0.0);
+  }
+
+  public void stopClimberRotate(){
     ClimberRotate.set(ControlMode.PercentOutput, 0.0);
   }
+
+  public void resetEncoders() {
+    ClimberElevate.setSelectedSensorPosition(0);
+    ClimberRotate.setSelectedSensorPosition(0);
+  }
+
 
 }
