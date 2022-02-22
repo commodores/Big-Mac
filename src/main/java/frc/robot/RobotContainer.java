@@ -18,7 +18,13 @@ import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ClimberDown;
+import frc.robot.commands.ClimberIn;
+import frc.robot.commands.ClimberOut;
+import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveManual;
+import frc.robot.commands.ShootHigh;
+import frc.robot.commands.ShootLow;
 
 
 
@@ -31,11 +37,11 @@ import frc.robot.commands.DriveManual;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //public final DriveTrain m_drivetrain = new DriveTrain();
-  public final DriveTrain m_drivetrain = new DriveTrain();
-  public final Climber m_Climber = new Climber();
-  public final Intake m_intake = new Intake();
-  public final IntakePneumatics mPneumatics = new IntakePneumatics();
-  public final Shooter m_shooter = new Shooter();
+  public final static DriveTrain m_drivetrain = new DriveTrain();
+  public final static Climber m_Climber = new Climber();
+  public final static Intake m_intake = new Intake();
+  public final static IntakePneumatics mPneumatics = new IntakePneumatics();
+  public final static Shooter m_shooter = new Shooter();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
@@ -65,12 +71,10 @@ public class RobotContainer {
     //Shooter
 
     new JoystickButton(m_driverController, Button.kLeftBumper.value)
-      .whenPressed(() -> m_shooter.setRPM(3150))
-      .whenReleased(() -> m_shooter.setRPM(-1));
+      .whileHeld(new ShootLow());
 
     new JoystickButton(m_driverController, Button.kRightBumper.value)
-      .whenPressed(() -> m_shooter.setRPM(4710))
-      .whenReleased(() -> m_shooter.setRPM(-1));
+      .whileHeld(new ShootHigh());
 
     //Intake
 
@@ -91,20 +95,22 @@ public class RobotContainer {
     //Climber
 
     new JoystickButton(m_driverController, Button.kY.value)
-    .whileHeld(() -> m_Climber.climberElevate(.5))
-    .whenReleased(() -> m_Climber.stopClimberElevate());
+    .whileHeld(new ClimberUp());
 
     new JoystickButton(m_driverController, Button.kA.value)
-    .whileHeld(() -> m_Climber.climberElevate(-.5))
-    .whenReleased(() -> m_Climber.stopClimberElevate());
+    .whileHeld(new ClimberDown());
 
     new JoystickButton(m_driverController, Button.kX.value)
-    .whileHeld(() -> m_Climber.climberRotate(.5))
-    .whenReleased(() -> m_Climber.stopClimberRotate());
+    .whileHeld(new ClimberOut());
 
     new JoystickButton(m_driverController, Button.kB.value)
-    .whileHeld(() -> m_Climber.climberRotate(-.5))
-    .whenReleased(() -> m_Climber.stopClimberRotate());
+    .whileHeld(new ClimberIn());
+
+    new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
+    .whenPressed(() -> m_Climber.climberLock());
+
+    new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
+    .whenPressed(() -> m_Climber.climberUnlock());
 
 
 

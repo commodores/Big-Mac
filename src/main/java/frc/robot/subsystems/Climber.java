@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,22 +20,25 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class Climber extends SubsystemBase {
   
-  private final WPI_TalonFX ClimberElevate;
-  private final TalonSRX ClimberRotate;
+  private final WPI_TalonFX climberElevate;
+  private final TalonSRX climberRotate;
+  private final Solenoid climberSolenoid;
 
   public Climber() {
 
-     ClimberElevate = new WPI_TalonFX(Constants.ClimberConstants.kClimberElevatePort);
-    ClimberElevate.configFactoryDefault();
-    ClimberElevate.setNeutralMode(NeutralMode.Brake);
-    ClimberElevate.set(ControlMode.PercentOutput, 0.0);
-    ClimberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    climberElevate = new WPI_TalonFX(Constants.ClimberConstants.kClimberElevatePort);
+    climberElevate.configFactoryDefault();
+    climberElevate.setNeutralMode(NeutralMode.Brake);
+    climberElevate.set(ControlMode.PercentOutput, 0.0);
+    climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
   
-   ClimberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
-    ClimberRotate.configFactoryDefault();
-    ClimberRotate.setNeutralMode(NeutralMode.Brake);
-    ClimberRotate.set(ControlMode.PercentOutput, 0.0);
-    ClimberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    climberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
+    climberRotate.configFactoryDefault();
+    climberRotate.setNeutralMode(NeutralMode.Brake);
+    climberRotate.set(ControlMode.PercentOutput, 0.0);
+    climberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+
+    climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
   }
 
 
@@ -41,30 +46,53 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    SmartDashboard.putNumber("ClimberRotate Motor", ClimberRotate.getSelectedSensorPosition());
-    SmartDashboard.putNumber("ClimberElevate Motor", ClimberElevate.getSelectedSensorPosition());
+    SmartDashboard.putNumber("ClimberRotate Motor", climberRotate.getSelectedSensorPosition());
+    SmartDashboard.putNumber("ClimberElevate Motor", climberElevate.getSelectedSensorPosition());
+    
   }
   public void climberElevate(double speed){
-    ClimberElevate.set(ControlMode.PercentOutput, speed);  
+    if(speed > 0 && getClimberEncoder() <= 270000){
+      climberElevate.set(ControlMode.PercentOutput, speed);
+    } else if(speed < 0 && getClimberEncoder() >= 2500){
+      climberElevate.set(ControlMode.PercentOutput, speed);
+    }
   }
 
   public void climberRotate(double speed){
-    ClimberRotate.set(ControlMode.PercentOutput, speed); 
+    if(speed > 0 && getRotateEncoder() <= 7865){
+      climberRotate.set(ControlMode.PercentOutput, speed);
+    } else if(speed < 0 && getRotateEncoder() >= 0){
+      climberRotate.set(ControlMode.PercentOutput, speed);
+    }
   }
 
 
   public void stopClimberElevate(){
-    ClimberElevate.set(ControlMode.PercentOutput, 0.0);
+    climberElevate.set(ControlMode.PercentOutput, 0.0);
   }
 
   public void stopClimberRotate(){
-    ClimberRotate.set(ControlMode.PercentOutput, 0.0);
+    climberRotate.set(ControlMode.PercentOutput, 0.0);
   }
 
   public void resetEncoders() {
-    ClimberElevate.setSelectedSensorPosition(0);
-    ClimberRotate.setSelectedSensorPosition(0);
+    climberElevate.setSelectedSensorPosition(0);
+    climberRotate.setSelectedSensorPosition(0);
   }
 
+  public void climberLock(){
+    climberSolenoid.set(false);
+  }
+
+  public void climberUnlock(){
+    climberSolenoid.set(true);
+  }
+
+  public double getRotateEncoder(){
+    return climberRotate.getSelectedSensorPosition();
+  }
+  public double getClimberEncoder(){
+    return climberElevate.getSelectedSensorPosition();
+  }
 
 }
