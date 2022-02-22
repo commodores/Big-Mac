@@ -23,6 +23,7 @@ import frc.robot.commands.ClimberIn;
 import frc.robot.commands.ClimberOut;
 import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveManual;
+import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
 
@@ -154,7 +155,7 @@ public class RobotContainer {
       case "threeball":
         //return new SimpleShoot();
         //RobotContainer.m_drivetrain.setPos(Units.feetToMeters(3.5), Units.feetToMeters(-5));
-        //return new RunTrajectory(getSlalom());
+        return new RunTrajectory("firstBall");
       case "sixball" :
         //return new SixBallAuto();
       
