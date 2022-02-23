@@ -14,6 +14,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -41,6 +44,8 @@ public class DriveTrain extends SubsystemBase {
 
   private SlewRateLimiter m_speedSlew = new SlewRateLimiter(6);
 
+  private final Field2d m_field;
+
   public DriveTrain() {//DriveTrain Electronics
     rightMasterMotor = new WPI_TalonFX(DriveConstants.kRightMasterPort);
     rightSlaveMotor = new WPI_TalonFX(DriveConstants.kRightSlavePort);
@@ -49,6 +54,10 @@ public class DriveTrain extends SubsystemBase {
     leftSlaveMotor = new WPI_TalonFX(DriveConstants.kLeftSlavePort);
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
+
+    m_field = new Field2d();
+    
+    SmartDashboard.putData("Field", m_field);
 
 
   //Set Electronics To Default
@@ -98,6 +107,8 @@ public class DriveTrain extends SubsystemBase {
       getLeftDistance(),
       getRightDistance()
     );
+
+    m_field.setRobotPose(m_odometry.getPoseMeters());
 
     //SmartDashboard.putNumber("Left Encoder", getLeftDistance());
     //SmartDashboard.putNumber("Right Encoder", getRightDistance());
