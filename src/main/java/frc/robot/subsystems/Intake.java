@@ -31,7 +31,6 @@ public class Intake extends SubsystemBase {
   private final DigitalInput toplimitSwitch;
   private final DigitalInput bottomlimitSwitch;
 
-  private final Solenoid shooterSolenoid;
   private final Solenoid intakeSolenoid;
 
   //private final Solenoid intakeSolenoid;
@@ -49,7 +48,6 @@ public class Intake extends SubsystemBase {
     intake2.setIdleMode(IdleMode.kBrake);
     intake3.setIdleMode(IdleMode.kBrake);
 
-    shooterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
     intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
     
     toplimitSwitch = new DigitalInput(0);
@@ -69,14 +67,6 @@ public class Intake extends SubsystemBase {
     intake1.set(0.0);
     intake2.set(0.0);
     intake3.set(0.0);
-  }
-
-  public void highShot() {
-    shooterSolenoid.set(true);
-  }
-
-  public void lowShot() {
-    shooterSolenoid.set(false);
   }
 
   public boolean getUpper() {
