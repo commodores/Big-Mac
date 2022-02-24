@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.IntakePneumatics;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,7 +40,6 @@ public class RobotContainer {
   public final static DriveTrain m_drivetrain = new DriveTrain();
   public final static Climber m_Climber = new Climber();
   public final static Intake m_intake = new Intake();
-  public final static IntakePneumatics mPneumatics = new IntakePneumatics();
   public final static Shooter m_shooter = new Shooter();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -88,10 +86,10 @@ public class RobotContainer {
     .whenReleased(() -> m_intake.stopIntake());
 
     new JoystickButton(m_driver2Controller, Button.kX.value)
-    .whenPressed(() -> mPneumatics.extendIntake());
+    .whenPressed(() -> m_intake.extendIntake());
 
     new JoystickButton(m_driver2Controller, Button.kY.value)
-    .whenPressed(() -> mPneumatics.retractIntake());
+    .whenPressed(() -> m_intake.retractIntake());
 
     //Climber
 
