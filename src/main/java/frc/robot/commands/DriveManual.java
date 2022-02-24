@@ -12,7 +12,6 @@ import frc.robot.RobotContainer;
 public class DriveManual extends CommandBase {
   /** Creates a new DriveManual. */
   private final DriveTrain m_drivetrain;
-
   public DriveManual(DriveTrain DriveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_drivetrain = DriveTrain;
@@ -31,10 +30,10 @@ public class DriveManual extends CommandBase {
     double rightTrigger = RobotContainer.m_driverController.getRawAxis(3);
     double speed = rightTrigger - leftTrigger;
 
-    double rotation = RobotContainer.m_driverController.getRawAxis(0);
+    double rotation = RobotContainer.m_driverController.getRawAxis(0)*.7;
 
     boolean quickTurn = speed > -0.1 && speed < 0.1;
-    
+
     m_drivetrain.curvatureDrive(speed, rotation, quickTurn);
 
     //m_drivetrain.arcadeDrive(speed, rotation*.5);

@@ -44,7 +44,6 @@ public class DriveTrain extends SubsystemBase {
 
   private SlewRateLimiter m_speedSlew = new SlewRateLimiter(6);
 
-  private final Field2d m_field;
 
   public DriveTrain() {//DriveTrain Electronics
     rightMasterMotor = new WPI_TalonFX(DriveConstants.kRightMasterPort);
@@ -54,10 +53,6 @@ public class DriveTrain extends SubsystemBase {
     leftSlaveMotor = new WPI_TalonFX(DriveConstants.kLeftSlavePort);
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
-
-    m_field = new Field2d();
-    
-    SmartDashboard.putData("Field", m_field);
 
 
   //Set Electronics To Default
@@ -108,7 +103,6 @@ public class DriveTrain extends SubsystemBase {
       getRightDistance()
     );
 
-    m_field.setRobotPose(m_odometry.getPoseMeters());
 
     //SmartDashboard.putNumber("Left Encoder", getLeftDistance());
     //SmartDashboard.putNumber("Right Encoder", getRightDistance());
@@ -122,7 +116,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     left_falcons.setVoltage(leftVolts);
-    right_falcons.setVoltage(-rightVolts);
+    right_falcons.setVoltage(rightVolts);
     m_drive.feed();
   }  
 

@@ -59,45 +59,27 @@ TrajectoryConfig configBackwards =
  */
 public Trajectory getDriveToFirstBallPath(){
     Trajectory driveToFirstBall = TrajectoryGenerator.generateTrajectory(
-        // Start
+        // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
-        List.of(
-            new Translation2d(1, -.75),
-            new Translation2d(0, -1.75)
-            //new Translation2d(-3.3, -1.75)
-
-            
-
-        ),
-        new Pose2d(-3.6, -1.5, new Rotation2d(Math.PI )),
-        config
-    );
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(3, 0, new Rotation2d(0)),
+        // Pass config
+        config);
     return driveToFirstBall;
 }
 
-public Trajectory doNothingPath(){
-  Trajectory doNothing = TrajectoryGenerator.generateTrajectory(
-      // Start
-      new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(
-          new Translation2d(0,0)
-      ),
-      new Pose2d(0, 0, new Rotation2d(0)),
-      config
-  );
-  return doNothing;
-}
-
 /** Creates a new AutoDrive. */
-public RunTrajectory(String path) {
+public RunTrajectory(String getPath) {
   // Use addRequirements() here to declare subsystem dependencies.
   addRequirements(RobotContainer.m_drivetrain);
-
+  String path = getPath;
   switch(path){
     case "firstBall":
       trajectory = getDriveToFirstBallPath();
     default:
-      trajectory = doNothingPath();
+      trajectory = getDriveToFirstBallPath();
 }
   
   

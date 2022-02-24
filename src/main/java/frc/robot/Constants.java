@@ -35,10 +35,10 @@ public final class Constants {
         public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR) / kGearReduction; 
         public static final double kWheelDistancePerPulse = kEncoderDistancePerPulse/ kGearReduction; //DISTANCE PER PULSE OF WHEEL= (OUTER CIRCUMFERENCE OF WHEEL)/(ENCODER CPR*GEAR REDUCTION)
 
-        public static final double ksVolts = 0.699;
-        public static final double kvVoltSecondsPerMeter = 2.36;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.22;
-        public static final double kPDriveVel = .5; //2.24;   // 2.29
+        public static final double ksVolts = 0.68824;
+        public static final double kvVoltSecondsPerMeter = 2.389;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.4162;
+        public static final double kPDriveVel = .5;//3.4; //2.24;   // 2.29
 
         public static final double kTrackwidthMeters = 0.648716;//CAD //.5715 Tape //0.59825 From Char Tool
         public static final DifferentialDriveKinematics kDriveKinematics =
@@ -49,8 +49,8 @@ public final class Constants {
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-        public static final double kMaxSpeedMetersPerSecond = 1.75;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1.75;
+        public static final double kMaxSpeedMetersPerSecond = 1;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
         public static final boolean kGyroReversed = true;
 
