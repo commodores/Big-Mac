@@ -34,7 +34,7 @@ public class Intake extends SubsystemBase {
 
   private final DoubleSolenoid intakeSolenoid;
 
-  //private final Solenoid intakeSolenoid;
+  //private final DoubleSolenoid intakeSolenoid;
 
   public Intake() {
 
@@ -89,7 +89,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Upper Limit Switch",  getUpper());
+    SmartDashboard.putBoolean("Upper Limit Switch", getUpper());
     SmartDashboard.putBoolean("Bottom Limit Switch", getLower());
   }
 
