@@ -49,7 +49,7 @@ public class Intake extends SubsystemBase {
     intake2.setIdleMode(IdleMode.kBrake);
     intake3.setIdleMode(IdleMode.kBrake);
 
-    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
+    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 3);
     
     toplimitSwitch = new DigitalInput(0);
     bottomlimitSwitch = new DigitalInput(1);
@@ -90,7 +90,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putBoolean("Upper Limit Switch",  getUpper());
-    SmartDashboard.putBoolean("Bottom Limit Swicth", getLower());
+    SmartDashboard.putBoolean("Bottom Limit Switch", getLower());
   }
 
 }
