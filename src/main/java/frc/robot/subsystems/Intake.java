@@ -13,7 +13,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -31,7 +32,7 @@ public class Intake extends SubsystemBase {
   private final DigitalInput toplimitSwitch;
   private final DigitalInput bottomlimitSwitch;
 
-  private final Solenoid intakeSolenoid;
+  private final DoubleSolenoid intakeSolenoid;
 
   //private final Solenoid intakeSolenoid;
 
@@ -48,7 +49,7 @@ public class Intake extends SubsystemBase {
     intake2.setIdleMode(IdleMode.kBrake);
     intake3.setIdleMode(IdleMode.kBrake);
 
-    intakeSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 0);
+    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 0);
     
     toplimitSwitch = new DigitalInput(0);
     bottomlimitSwitch = new DigitalInput(1);
@@ -78,11 +79,11 @@ public class Intake extends SubsystemBase {
 	}
   
  public void extendIntake() {
-    intakeSolenoid.set(false);
+    intakeSolenoid.set(Value.kReverse);
   }
 
   public void retractIntake() {
-    intakeSolenoid.set(true);
+    intakeSolenoid.set(Value.kForward);
   }
   
   @Override
