@@ -51,7 +51,7 @@ public class Climber extends SubsystemBase {
     
   }
   public void climberElevate(double speed){
-    if(speed > 0 && getClimberEncoder() <= 270000){
+    if(speed > 0 && getClimberEncoder() <= 275000){
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else if(speed < 0 && getClimberEncoder() >= 2500){
       climberElevate.set(ControlMode.PercentOutput, speed);
@@ -59,10 +59,12 @@ public class Climber extends SubsystemBase {
   }
 
   public void climberRotate(double speed){
-    if(speed > 0 && getRotateEncoder() <= 7865){
-      climberRotate.set(ControlMode.PercentOutput, speed);
-    } else if(speed < 0 && getRotateEncoder() >= 0){
-      climberRotate.set(ControlMode.PercentOutput, speed);
+    if(getLockState()){
+      if(speed > 0 && getRotateEncoder() <= 7865){
+        climberRotate.set(ControlMode.PercentOutput, speed);
+      } else if(speed < 0 && getRotateEncoder() >= 0){
+        climberRotate.set(ControlMode.PercentOutput, speed);
+      }
     }
   }
 
@@ -75,9 +77,9 @@ public class Climber extends SubsystemBase {
     climberRotate.set(ControlMode.PercentOutput, 0.0);
   }
 
-  public void resetEncoders() {
+  public void resetClimberEncoders() {
     climberElevate.setSelectedSensorPosition(0);
-    climberRotate.setSelectedSensorPosition(0);
+    climberRotate.setSelectedSensorPosition(3729);
   }
 
   public void climberLock(){
@@ -93,6 +95,10 @@ public class Climber extends SubsystemBase {
   }
   public double getClimberEncoder(){
     return climberElevate.getSelectedSensorPosition();
+  }
+
+  public boolean getLockState(){
+    return climberSolenoid.get();
   }
 
 }

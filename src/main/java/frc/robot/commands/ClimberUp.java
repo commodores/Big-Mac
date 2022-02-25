@@ -33,6 +33,6 @@ public class ClimberUp extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.m_Climber.getClimberEncoder() >= 270000;
+    return RobotContainer.m_Climber.getClimberEncoder() >= 275000;
   }
 }

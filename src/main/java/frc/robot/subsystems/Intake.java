@@ -29,16 +29,13 @@ public class Intake extends SubsystemBase {
 
 
   
-  private final DigitalInput toplimitSwitch;
-  private final DigitalInput bottomlimitSwitch;
+  private final DigitalInput limitSwitch;
+ 
 
   private final DoubleSolenoid intakeSolenoid;
 
-  //private final DoubleSolenoid intakeSolenoid;
 
   public Intake() {
-
-    //intakeSolenoid = new Solenoid(IntakeConstants.kIntakeSolenoidPort);
     intake1 = new WPI_TalonFX(IntakeConstants.kIntakeMotor1Port);
 
     intake1.setNeutralMode(NeutralMode.Brake);
@@ -51,32 +48,41 @@ public class Intake extends SubsystemBase {
 
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 3);
     
-    toplimitSwitch = new DigitalInput(0);
-    bottomlimitSwitch = new DigitalInput(1);
+    limitSwitch = new DigitalInput(0);
+    
 
 
   }
 
-
-  public void runIntake(double speed){
+  public void runIntake1(double speed){
     intake1.set(speed);
+  }
+
+  public void runIntake2(double speed){
     intake2.set(-speed);
+  }
+
+  public void runIntake3(double speed){
     intake3.set(speed);
   }
 
-  public void stopIntake(){
+  public void stopIntake1(){
     intake1.set(0.0);
+  }
+
+  public void stopIntake2(){
     intake2.set(0.0);
+  }
+
+  public void stopIntake3(){
     intake3.set(0.0);
   }
 
-  public boolean getUpper() {
-		return toplimitSwitch.get();
+  public boolean getLimitSwitch() {
+		return limitSwitch.get();
 	}
 
-  public boolean getLower() {
-		return bottomlimitSwitch.get();
-	}
+  
   
  public void extendIntake() {
     intakeSolenoid.set(Value.kReverse);
@@ -89,8 +95,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Upper Limit Switch", getUpper());
-    SmartDashboard.putBoolean("Bottom Limit Switch", getLower());
+    SmartDashboard.putBoolean("Upper Limit Switch", getLimitSwitch());
+   
   }
 
 }

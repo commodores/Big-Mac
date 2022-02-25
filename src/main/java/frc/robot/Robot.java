@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    RobotContainer.m_Climber.resetEncoders();
+    RobotContainer.m_Climber.resetClimberEncoders();
   }
 
   /**
@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Distance", RobotContainer.m_drivetrain.getRightDistance());
 
     SmartDashboard.putNumber("Angle", RobotContainer.m_drivetrain.getDirection());
+    SmartDashboard.putBoolean("Climber Lock", RobotContainer.m_Climber.getLockState());
   }
   
 

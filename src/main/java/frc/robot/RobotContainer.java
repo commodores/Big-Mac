@@ -17,11 +17,14 @@ import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ClearHopper;
 import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberIn;
 import frc.robot.commands.ClimberOut;
 import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveManual;
+import frc.robot.commands.FireBalls;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
@@ -78,12 +81,14 @@ public class RobotContainer {
     //Intake
 
     new JoystickButton(m_driver2Controller, Button.kA.value)
-      .whileHeld(() -> m_intake.runIntake(-1.0))
-      .whenReleased(() -> m_intake.stopIntake());
+    .whileHeld(new IntakeCommand());
+    
+    new JoystickButton(m_driverController, Button.kA.value)
+    .whileHeld(new FireBalls());
 
     new JoystickButton(m_driver2Controller, Button.kB.value)
-    .whileHeld(() -> m_intake.runIntake(1.0))
-    .whenReleased(() -> m_intake.stopIntake());
+    .whileHeld(new ClearHopper());
+    
 
     new JoystickButton(m_driver2Controller, Button.kX.value)
     .whenPressed(() -> m_intake.extendIntake());
@@ -91,8 +96,9 @@ public class RobotContainer {
     new JoystickButton(m_driver2Controller, Button.kY.value)
     .whenPressed(() -> m_intake.retractIntake());
 
-    //Climber
 
+    //Climber
+    /*
     new JoystickButton(m_driverController, Button.kY.value)
     .whileHeld(new ClimberUp());
 
@@ -110,7 +116,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
     .whenPressed(() -> m_Climber.climberUnlock());
-
+    */
 
 
   }

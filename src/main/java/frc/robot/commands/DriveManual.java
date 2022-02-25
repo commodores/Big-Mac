@@ -34,7 +34,7 @@ public class DriveManual extends CommandBase {
 
     boolean quickTurn = speed > -0.1 && speed < 0.1;
 
-    m_drivetrain.curvatureDrive(speed, rotation, quickTurn);
+    m_drivetrain.curvatureDrive(speed*.8, rotation, quickTurn);
 
     //m_drivetrain.arcadeDrive(speed, rotation*.5);
 
