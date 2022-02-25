@@ -126,11 +126,11 @@ public class Shooter extends SubsystemBase {
       return (RPM / 600.0) * 2048.0;
   }
 
-  public void highShot() {
+  public void setHighShot() {
     shooterSolenoid.set(true);
   }
 
-  public void lowShot() {
+  public void setLowShot() {
     shooterSolenoid.set(false);
   }
 

@@ -122,8 +122,6 @@ public class RobotContainer {
   }
 
   private void initializeStartup() {
-    
-    //SmartDashboard.putData("Ramp it up!!", new AutoShoot());
     m_drivetrain.setDefaultCommand(
       new DriveManual(m_drivetrain));
   }

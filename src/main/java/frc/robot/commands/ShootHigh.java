@@ -22,7 +22,7 @@ public class ShootHigh extends CommandBase {
   @Override
   public void execute() {
     RobotContainer.m_shooter.setRPM(4500);
-    RobotContainer.m_shooter.highShot();
+    RobotContainer.m_shooter.setHighShot();
   }
 
   // Called once the command ends or is interrupted.
