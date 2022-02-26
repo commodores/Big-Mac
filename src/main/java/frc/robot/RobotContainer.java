@@ -115,9 +115,8 @@ public class RobotContainer {
     .whenPressed(() -> m_Climber.climberLock());
 
     new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
-    .whenPressed(() -> m_Climber.climberUnlock());
+    .whenPressed(() -> m_Climber.climberUnlock());  
     */
-
 
   }
 

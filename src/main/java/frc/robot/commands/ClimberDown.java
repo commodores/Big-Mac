@@ -33,6 +33,6 @@ public class ClimberDown extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.m_Climber.getClimberEncoder() <= 2000;
+    return false;
   }
 }

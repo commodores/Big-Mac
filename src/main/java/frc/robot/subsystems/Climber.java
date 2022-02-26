@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,8 @@ public class Climber extends SubsystemBase {
   private final TalonSRX climberRotate;
   private final Solenoid climberSolenoid;
 
+  private final DigitalInput rotateLimitSwitch;
+
   public Climber() {
 
     climberElevate = new WPI_TalonFX(Constants.ClimberConstants.kClimberElevatePort);
@@ -39,6 +42,8 @@ public class Climber extends SubsystemBase {
     climberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
     climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
+
+    rotateLimitSwitch = new DigitalInput(1);
   }
 
 
@@ -62,8 +67,10 @@ public class Climber extends SubsystemBase {
     if(getLockState()){
       if(speed > 0 && getRotateEncoder() <= 7865){
         climberRotate.set(ControlMode.PercentOutput, speed);
-      } else if(speed < 0 && getRotateEncoder() >= 0){
+      } else if(speed < 0 && getLimitSwitch()){
         climberRotate.set(ControlMode.PercentOutput, speed);
+      } else{
+        climberRotate.set(ControlMode.PercentOutput, 0);
       }
     }
   }
@@ -101,4 +108,9 @@ public class Climber extends SubsystemBase {
     return climberSolenoid.get();
   }
 
+  public boolean getLimitSwitch(){
+    return rotateLimitSwitch.get();
+  }
+
 }
+  
