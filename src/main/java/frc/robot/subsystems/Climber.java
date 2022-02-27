@@ -34,6 +34,9 @@ public class Climber extends SubsystemBase {
     climberElevate.setNeutralMode(NeutralMode.Brake);
     climberElevate.set(ControlMode.PercentOutput, 0.0);
     climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    climberElevate.config_kP(0, 0.1);
+    climberElevate.configMotionCruiseVelocity(15000);
+    climberElevate.configMotionAcceleration(15000);
   
     climberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
     climberRotate.configFactoryDefault();
@@ -61,6 +64,10 @@ public class Climber extends SubsystemBase {
     } else if(speed < 0 && getClimberEncoder() >= 2500){
       climberElevate.set(ControlMode.PercentOutput, speed);
     }
+  }
+
+  public void elevateMagic(double position){
+    climberElevate.set(ControlMode.MotionMagic, position);
   }
 
   public void climberRotate(double speed){
