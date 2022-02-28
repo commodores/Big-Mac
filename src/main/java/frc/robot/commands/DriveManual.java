@@ -30,11 +30,11 @@ public class DriveManual extends CommandBase {
     double rightTrigger = RobotContainer.m_driverController.getRawAxis(3);
     double speed = rightTrigger - leftTrigger;
 
-    double rotation = RobotContainer.m_driverController.getRawAxis(0)*.7;
+    double rotation = RobotContainer.m_driverController.getRawAxis(0);
 
-    boolean quickTurn = speed > -0.1 && speed < 0.1;
+    boolean quickTurn = false;//speed > -0.1 && speed < 0.1;
 
-    m_drivetrain.curvatureDrive(speed*.8, rotation, quickTurn);
+    m_drivetrain.curvatureDrive(speed, rotation, quickTurn);
 
     //m_drivetrain.arcadeDrive(speed, rotation*.5);
 

@@ -27,22 +27,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
-  private final WPI_TalonFX rightMasterMotor;
-  private final WPI_TalonFX leftMasterMotor;
-
-  private final WPI_TalonFX rightSlaveMotor;
-  private final WPI_TalonFX leftSlaveMotor;
+  private final WPI_TalonFX rightMasterMotor, leftMasterMotor, rightSlaveMotor, leftSlaveMotor;
 
   private PigeonIMU pigeon;
 
-  private MotorControllerGroup left_falcons;
-  private MotorControllerGroup right_falcons;
+  private MotorControllerGroup left_falcons, right_falcons;
 
   private final DifferentialDrive m_drive;
 
   private DifferentialDriveOdometry m_odometry;
 
-  private SlewRateLimiter m_speedSlew = new SlewRateLimiter(6);
+  private SlewRateLimiter m_speedSlew, m_turnSlew;
 
 
   public DriveTrain() {//DriveTrain Electronics
@@ -53,6 +48,9 @@ public class DriveTrain extends SubsystemBase {
     leftSlaveMotor = new WPI_TalonFX(DriveConstants.kLeftSlavePort);
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
+
+    m_speedSlew = new SlewRateLimiter(.05);
+    m_turnSlew = new SlewRateLimiter(.05);
 
 
   //Set Electronics To Default
@@ -121,11 +119,9 @@ public class DriveTrain extends SubsystemBase {
   }  
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    //m_drive.curvatureDrive(m_speedSlew.calculate(speed), m_turnSlew.calculate(rotation), quickturn);
-    m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.8, quickturn);
+    m_drive.curvatureDrive(m_speedSlew.calculate(speed), m_turnSlew.calculate(rotation), quickturn);
+    //m_drive.curvatureDrive(speed, rotation, quickturn);
   }
-
-  
 
   public void resetEncoders() {
     leftMasterMotor.setSelectedSensorPosition(0);
