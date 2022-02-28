@@ -35,14 +35,17 @@ public class Climber extends SubsystemBase {
     climberElevate.set(ControlMode.PercentOutput, 0.0);
     climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     climberElevate.config_kP(0, 0.1);
-    climberElevate.configMotionCruiseVelocity(15000);
-    climberElevate.configMotionAcceleration(15000);
+    climberElevate.configMotionCruiseVelocity(5000);
+    climberElevate.configMotionAcceleration(5000);
   
     climberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
     climberRotate.configFactoryDefault();
     climberRotate.setNeutralMode(NeutralMode.Brake);
     climberRotate.set(ControlMode.PercentOutput, 0.0);
     climberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    climberRotate.config_kP(0, 0.1);
+    climberRotate.configMotionCruiseVelocity(5000);
+    climberRotate.configMotionAcceleration(5000);
 
     climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
 
@@ -53,7 +56,9 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+    if(!getLimitSwitch()){
+      climberRotate.setSelectedSensorPosition(0);
+    }
     SmartDashboard.putNumber("ClimberRotate Motor", climberRotate.getSelectedSensorPosition());
     SmartDashboard.putNumber("ClimberElevate Motor", climberElevate.getSelectedSensorPosition());
     
@@ -74,7 +79,7 @@ public class Climber extends SubsystemBase {
     if(getLockState()){
       if(speed > 0 && getRotateEncoder() <= 7865){
         climberRotate.set(ControlMode.PercentOutput, speed);
-      } else if(speed < 0 && getLimitSwitch()){
+      } else if(speed < 0 && getLimitSwitch() && getRotateEncoder() >= -250){
         climberRotate.set(ControlMode.PercentOutput, speed);
       } else{
         climberRotate.set(ControlMode.PercentOutput, 0);
@@ -82,6 +87,9 @@ public class Climber extends SubsystemBase {
     }
   }
 
+  public void rotateMagic(double position){
+    climberRotate.set(ControlMode.MotionMagic, position);
+  }
 
   public void stopClimberElevate(){
     climberElevate.set(ControlMode.PercentOutput, 0.0);
