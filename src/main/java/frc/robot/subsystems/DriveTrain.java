@@ -49,7 +49,7 @@ public class DriveTrain extends SubsystemBase {
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
 
-    m_speedSlew = new SlewRateLimiter(1);
+    m_speedSlew = new SlewRateLimiter(2);
     m_turnSlew = new SlewRateLimiter(1);
 
 

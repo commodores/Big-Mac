@@ -50,6 +50,7 @@ public class Climber extends SubsystemBase {
     climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
 
     rotateLimitSwitch = new DigitalInput(1);
+    
   }
 
 
@@ -66,7 +67,7 @@ public class Climber extends SubsystemBase {
   public void climberElevate(double speed){
     if(speed > 0 && getClimberEncoder() <= 275000){
       climberElevate.set(ControlMode.PercentOutput, speed);
-    } else if(speed < 0 && getClimberEncoder() >= 2500){
+    } else if(speed < 0 && getClimberEncoder() >= 10000){
       climberElevate.set(ControlMode.PercentOutput, speed);
     }
   }
