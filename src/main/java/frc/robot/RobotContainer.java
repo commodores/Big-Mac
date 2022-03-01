@@ -83,8 +83,8 @@ public class RobotContainer {
     new JoystickButton(m_driver2Controller, Button.kA.value)
     .whileHeld(new IntakeCommand());
     
-    new JoystickButton(m_driverController, Button.kA.value)
-    .whileHeld(new FireBalls());
+    //new JoystickButton(m_driverController, Button.kA.value)
+    //.whileHeld(new FireBalls());
 
     new JoystickButton(m_driver2Controller, Button.kB.value)
     .whileHeld(new ClearHopper());
@@ -98,7 +98,7 @@ public class RobotContainer {
 
 
     //Climber
-    /*
+    
     new JoystickButton(m_driverController, Button.kY.value)
     .whileHeld(new ClimberUp());
 
@@ -116,7 +116,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
     .whenPressed(() -> m_Climber.climberUnlock());  
-    */
+    
 
   }
 

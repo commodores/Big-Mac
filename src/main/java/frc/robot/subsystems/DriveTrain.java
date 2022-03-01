@@ -49,8 +49,8 @@ public class DriveTrain extends SubsystemBase {
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
 
-    m_speedSlew = new SlewRateLimiter(.05);
-    m_turnSlew = new SlewRateLimiter(.05);
+    m_speedSlew = new SlewRateLimiter(1);
+    m_turnSlew = new SlewRateLimiter(1);
 
 
   //Set Electronics To Default
@@ -119,7 +119,7 @@ public class DriveTrain extends SubsystemBase {
   }  
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    m_drive.curvatureDrive(m_speedSlew.calculate(speed), m_turnSlew.calculate(rotation), quickturn);
+    m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.6, quickturn);
     //m_drive.curvatureDrive(speed, rotation, quickturn);
   }
 
