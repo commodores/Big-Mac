@@ -32,7 +32,7 @@ public class DriveManual extends CommandBase {
 
     double rotation = RobotContainer.m_driverController.getRawAxis(0);
 
-    boolean quickTurn = true;//speed > -0.1 && speed < 0.1;
+    boolean quickTurn = speed > -0.1 && speed < 0.1;
 
     m_drivetrain.curvatureDrive(speed, rotation, quickTurn);
 
