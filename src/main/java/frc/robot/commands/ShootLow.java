@@ -21,7 +21,7 @@ public class ShootLow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter.setRPM(3200);
+    RobotContainer.m_shooter.setRPM(3100);
     RobotContainer.m_shooter.setLowShot();
   }
 
