@@ -85,11 +85,11 @@ public class Intake extends SubsystemBase {
   
   
  public void extendIntake() {
-    intakeSolenoid.set(Value.kReverse);
+    intakeSolenoid.set(Value.kForward);
   }
 
   public void retractIntake() {
-    intakeSolenoid.set(Value.kForward);
+    intakeSolenoid.set(Value.kReverse);
   }
   
   @Override

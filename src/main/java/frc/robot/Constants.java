@@ -49,9 +49,9 @@ public final class Constants {
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
 
-        public static final double kMaxSpeedMetersPerSecond = 2.75;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 2;
-        public static final double kMaxCentripetalAccel = 1.25;
+        public static final double kMaxSpeedMetersPerSecond = 1.75;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+        public static final double kMaxCentripetalAccel = .75;
 
 
         public static final boolean kGyroReversed = true;

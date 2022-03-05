@@ -17,6 +17,7 @@ import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.AppleSauceNumberOne;
 import frc.robot.commands.ClearHopper;
 import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberIn;
@@ -24,10 +25,12 @@ import frc.robot.commands.ClimberOut;
 import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.FireBalls;
+import frc.robot.commands.FlashyMove;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
+import frc.robot.commands.TwoFish;
 
 
 
@@ -135,9 +138,10 @@ public class RobotContainer {
   {
     /* Add options (which autonomous commands can be selected) to chooser. */
     m_autoChooser.setDefaultOption("Do Nothing", "doNothing");
-    m_autoChooser.addOption("Test 1", "testAuto1");
-    m_autoChooser.addOption("Test 2", "testAuto2");
-    m_autoChooser.addOption("Test 3", "testAuto3");
+    m_autoChooser.addOption("Test It", "testPath");
+    m_autoChooser.addOption("Drive off Tarmac", "offTarmac");
+    m_autoChooser.addOption("1 ball", "ball1");
+    m_autoChooser.addOption("2 ball", "ball2");
 
     /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
@@ -153,15 +157,24 @@ public class RobotContainer {
     
     switch (m_autoChooser.getSelected())
     {
-      case "testAuto1":
+      case "testPath" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
         RobotContainer.m_drivetrain.zeroSensors();
-        return new RunTrajectory("firstBall");
-      case "testAuto2" :
+        return new RunTrajectory("testPath");
+
+      case "offTarmac":
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new FlashyMove();
+
+      case "ball1" :
         //return new SixBallAuto();
-      
-      case "testAuto3" :
+        return new AppleSauceNumberOne();
+
+      case "ball2" :
         //return new DefenseTrench();
-    
+        return new TwoFish();
+
       default:
         System.out.println("\nError selecting autonomous command:\nCommand selected: " + m_autoChooser.getSelected() + "\n");
         return null;
