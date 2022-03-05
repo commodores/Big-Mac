@@ -79,25 +79,25 @@ public class RobotContainer {
       .whileHeld(new ShootLow());
 
     new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
-      .whileHeld(new ShootHigh());
+     .whileHeld(new ShootHigh());
 
     //Intake
 
     new JoystickButton(m_driver2Controller, Button.kA.value)
-    .whileHeld(new IntakeCommand());
+      .whileHeld(new IntakeCommand());
     
     new JoystickButton(m_driverController, Button.kA.value)
-    .whileHeld(new FireBalls());
+      .whileHeld(new FireBalls());
 
     new JoystickButton(m_driver2Controller, Button.kB.value)
-    .whileHeld(new ClearHopper());
+      .whileHeld(new ClearHopper());
     
 
     new JoystickButton(m_driver2Controller, Button.kX.value)
-    .whenPressed(() -> m_intake.extendIntake());
+      .whenPressed(() -> m_intake.extendIntake());
 
     new JoystickButton(m_driver2Controller, Button.kY.value)
-    .whenPressed(() -> m_intake.retractIntake());
+      .whenPressed(() -> m_intake.retractIntake());
 
 
     //Climber
@@ -169,10 +169,14 @@ public class RobotContainer {
 
       case "ball1" :
         //return new SixBallAuto();
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
         return new AppleSauceNumberOne();
 
       case "ball2" :
         //return new DefenseTrench();
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
         return new TwoFish();
 
       default:

@@ -69,6 +69,8 @@ public class Climber extends SubsystemBase {
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else if(speed < 0 && getClimberEncoder() >= 10000){
       climberElevate.set(ControlMode.PercentOutput, speed);
+    } else {
+      climberElevate.set(ControlMode.PercentOutput, 0);
     }
   }
 
