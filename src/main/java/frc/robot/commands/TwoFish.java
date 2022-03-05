@@ -25,7 +25,7 @@ public class TwoFish extends SequentialCommandGroup {
 
       ).withTimeout(3),
      // new StopShooterAuto().withTimeout(0.1),
-      new AutoIntake().withTimeout(0.5),
+      new ExtendIntake().withTimeout(0.5),
       new ParallelCommandGroup(
         new RunTrajectory("driveOffTarmac"), 
         new RunIntake()

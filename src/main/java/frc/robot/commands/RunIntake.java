@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class RunIntake extends CommandBase {
-  /** Creates a new AutoIntake. */
+  /** Creates a new RunIntake. */
   public RunIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.m_intake);
