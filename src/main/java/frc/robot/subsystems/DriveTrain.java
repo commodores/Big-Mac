@@ -37,7 +37,7 @@ public class DriveTrain extends SubsystemBase {
 
   private DifferentialDriveOdometry m_odometry;
 
-  private SlewRateLimiter m_speedSlew, m_turnSlew;
+  private SlewRateLimiter m_speedSlew;
 
 
   public DriveTrain() {//DriveTrain Electronics
@@ -50,8 +50,6 @@ public class DriveTrain extends SubsystemBase {
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
 
     m_speedSlew = new SlewRateLimiter(4);
-    m_turnSlew = new SlewRateLimiter(1);
-
 
   //Set Electronics To Default
     rightMasterMotor.configFactoryDefault();
@@ -79,9 +77,6 @@ public class DriveTrain extends SubsystemBase {
     left_falcons.setInverted(true);
     right_falcons.setInverted(false);
 
-    //leftMasterMotor.configOpenloopRamp(.2);
-    //rightMasterMotor.configOpenloopRamp(.2);
-
     m_drive = new DifferentialDrive(left_falcons, right_falcons);
 
 
@@ -101,10 +96,6 @@ public class DriveTrain extends SubsystemBase {
       getRightDistance()
     );
 
-
-    //SmartDashboard.putNumber("Left Encoder", getLeftDistance());
-    //SmartDashboard.putNumber("Right Encoder", getRightDistance());
-    //SmartDashboard.putNumber("Heading", getDirection());
   }
 
   
@@ -120,7 +111,6 @@ public class DriveTrain extends SubsystemBase {
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
     m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.6, quickturn);
-    //m_drive.curvatureDrive(speed, rotation, quickturn);
   }
 
   public void resetEncoders() {
@@ -197,8 +187,6 @@ public class DriveTrain extends SubsystemBase {
   public void setMaxOutput(double maxOutput) {
     m_drive.setMaxOutput(maxOutput);
   }
-
-  
 
 
 }

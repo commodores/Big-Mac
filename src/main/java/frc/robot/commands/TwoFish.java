@@ -16,28 +16,33 @@ public class TwoFish extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ShootHigh().withTimeout(2),
-      
+      //Spin up shooter
+      new ShootHigh().withTimeout(1),
+      //Run shooter and clear hopper
       new ParallelCommandGroup(
         new ShootHigh(),
         new FireBalls()
-
-
-      ).withTimeout(3),
-     // new StopShooterAuto().withTimeout(0.1),
-      new ExtendIntake().withTimeout(0.5),
+      ).withTimeout(2),
+      //Turn off shooter
+      new StopShooterAuto().withTimeout(0.1),
+      //Extend intake
+      new ExtendIntake().withTimeout(0.1),
+      //Drive and intake
       new ParallelCommandGroup(
         new RunTrajectory("driveOffTarmac"), 
         new RunIntake()
       ).withTimeout(2),
-      new StopAutoIntake(),
+      //Stop Intake
+      new StopAutoIntake().withTimeout(0.1),
+      //Return to tarmac
       new RunTrajectory("driveOnTarmac").withTimeout(2),
-      new ShootHigh().withTimeout(2),
-      
+      //Spin up shooter
+      new ShootHigh().withTimeout(1),
+      //Run shooter and clear hopper
       new ParallelCommandGroup(
         new ShootHigh(),
         new FireBalls()
-      ).withTimeout(3)
+      ).withTimeout(2)
     );
   }
 }

@@ -64,7 +64,7 @@ public class Climber extends SubsystemBase {
     
   }
   public void climberElevate(double speed){
-    if(speed > 0 && getClimberEncoder() <= 270000 && getElevateLimitSwitch()){
+    if(speed > 0 && getElevateLimitSwitch()){
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else if(speed < 0 && getClimberEncoder() >= 10000){
       climberElevate.set(ControlMode.PercentOutput, speed);
@@ -81,7 +81,7 @@ public class Climber extends SubsystemBase {
     if(getLockState()){
       if(speed > 0 && getRotateEncoder() <= 7865){
         climberRotate.set(ControlMode.PercentOutput, speed);
-      } else if(speed < 0 && getRotateLimitSwitch() && getRotateEncoder() >= -250){
+      } else if(speed < 0 && getRotateLimitSwitch()){
         climberRotate.set(ControlMode.PercentOutput, speed);
       } else{
         climberRotate.set(ControlMode.PercentOutput, 0);

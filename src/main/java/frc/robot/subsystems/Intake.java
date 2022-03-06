@@ -49,8 +49,6 @@ public class Intake extends SubsystemBase {
     intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 3);
     
     limitSwitch = new DigitalInput(0);
-    
-
 
   }
 
@@ -80,11 +78,9 @@ public class Intake extends SubsystemBase {
 
   public boolean getLimitSwitch() {
 		return limitSwitch.get();
-	}
-
+	} 
   
-  
- public void extendIntake() {
+  public void extendIntake() {
     intakeSolenoid.set(Value.kForward);
   }
 
