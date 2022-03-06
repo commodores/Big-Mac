@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AppleSauceNumberOne;
+import frc.robot.commands.BlueFish;
 import frc.robot.commands.ClearHopper;
 import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberIn;
@@ -27,6 +28,8 @@ import frc.robot.commands.DriveManual;
 import frc.robot.commands.FireBalls;
 import frc.robot.commands.FlashyMove;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.LeeroyJenkins;
+import frc.robot.commands.RedFish;
 import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
@@ -142,6 +145,9 @@ public class RobotContainer {
     m_autoChooser.addOption("Drive off Tarmac", "offTarmac");
     m_autoChooser.addOption("1 ball", "ball1");
     m_autoChooser.addOption("2 ball", "ball2");
+    m_autoChooser.addOption("3 ball", "ball3");
+    m_autoChooser.addOption("4 ball", "ball4");
+    m_autoChooser.addOption("5 ball", "ball5");
 
     /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
@@ -168,16 +174,29 @@ public class RobotContainer {
         return new FlashyMove();
 
       case "ball1" :
-        //return new SixBallAuto();
         RobotContainer.m_drivetrain.setPos(0, 0);
         RobotContainer.m_drivetrain.zeroSensors();
         return new AppleSauceNumberOne();
 
       case "ball2" :
-        //return new DefenseTrench();
         RobotContainer.m_drivetrain.setPos(0, 0);
         RobotContainer.m_drivetrain.zeroSensors();
         return new TwoFish();
+
+      case "ball3" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new RedFish();
+
+      case "ball4" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new BlueFish();
+
+      case "ball5" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new LeeroyJenkins();
 
       default:
         System.out.println("\nError selecting autonomous command:\nCommand selected: " + m_autoChooser.getSelected() + "\n");

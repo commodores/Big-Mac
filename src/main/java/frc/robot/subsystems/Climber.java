@@ -26,6 +26,7 @@ public class Climber extends SubsystemBase {
   private final Solenoid climberSolenoid;
 
   private final DigitalInput rotateLimitSwitch;
+  private final DigitalInput elevateLimitSwitch;
 
   public Climber() {
 
@@ -50,6 +51,7 @@ public class Climber extends SubsystemBase {
     climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
 
     rotateLimitSwitch = new DigitalInput(1);
+    elevateLimitSwitch = new DigitalInput(2);
     
   }
 
@@ -57,15 +59,12 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if(!getLimitSwitch()){
-      climberRotate.setSelectedSensorPosition(0);
-    }
     SmartDashboard.putNumber("ClimberRotate Motor", climberRotate.getSelectedSensorPosition());
     SmartDashboard.putNumber("ClimberElevate Motor", climberElevate.getSelectedSensorPosition());
     
   }
   public void climberElevate(double speed){
-    if(speed > 0 && getClimberEncoder() <= 270000){
+    if(speed > 0 && getClimberEncoder() <= 270000 && getElevateLimitSwitch()){
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else if(speed < 0 && getClimberEncoder() >= 10000){
       climberElevate.set(ControlMode.PercentOutput, speed);
@@ -82,7 +81,7 @@ public class Climber extends SubsystemBase {
     if(getLockState()){
       if(speed > 0 && getRotateEncoder() <= 7865){
         climberRotate.set(ControlMode.PercentOutput, speed);
-      } else if(speed < 0 && getLimitSwitch() && getRotateEncoder() >= -250){
+      } else if(speed < 0 && getRotateLimitSwitch() && getRotateEncoder() >= -250){
         climberRotate.set(ControlMode.PercentOutput, speed);
       } else{
         climberRotate.set(ControlMode.PercentOutput, 0);
@@ -126,8 +125,12 @@ public class Climber extends SubsystemBase {
     return climberSolenoid.get();
   }
 
-  public boolean getLimitSwitch(){
+  public boolean getRotateLimitSwitch(){
     return rotateLimitSwitch.get();
+  }
+
+  public boolean getElevateLimitSwitch(){
+    return elevateLimitSwitch.get();
   }
 
 }
