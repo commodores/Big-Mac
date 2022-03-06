@@ -15,16 +15,12 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
 import java.util.List;
-
-import javax.print.event.PrintJobListener;
-
 
 public class RunTrajectory extends CommandBase {
 private final RamseteCommand ramsete;
@@ -44,7 +40,8 @@ TrajectoryConfig config =
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics)
         // Apply the voltage constraint
-        .addConstraint(autoVoltageConstraint);
+        .addConstraint(autoVoltageConstraint)
+        .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kMaxCentripetalAccel));
 
 // Create config for trajectory
 TrajectoryConfig configBackwards =
@@ -54,7 +51,8 @@ TrajectoryConfig configBackwards =
         .setKinematics(DriveConstants.kDriveKinematics)
         .setReversed(true)
         // Apply the voltage constraint
-        .addConstraint(autoVoltageConstraint);
+        .addConstraint(autoVoltageConstraint)
+        .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kMaxCentripetalAccel));
 
 
 /**
