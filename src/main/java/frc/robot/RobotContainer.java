@@ -123,7 +123,6 @@ public class RobotContainer {
     new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
     .whenPressed(() -> m_Climber.climberUnlock());  
     */
-
   }
 
   private void initializeStartup() {
