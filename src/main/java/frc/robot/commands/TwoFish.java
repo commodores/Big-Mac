@@ -17,7 +17,7 @@ public class TwoFish extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //Spin up shooter
-      new ShootHigh().withTimeout(1),
+      new ShootHigh().withTimeout(2),
       //Run shooter and clear hopper
       new ParallelCommandGroup(
         new ShootHigh(),
@@ -37,7 +37,7 @@ public class TwoFish extends SequentialCommandGroup {
       //Return to tarmac
       new RunTrajectory("driveOnTarmac").withTimeout(2),
       //Spin up shooter
-      new ShootHigh().withTimeout(1),
+      new ShootHigh().withTimeout(2),
       //Run shooter and clear hopper
       new ParallelCommandGroup(
         new ShootHigh(),

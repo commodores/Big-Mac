@@ -21,7 +21,7 @@ public class ClimberUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_Climber.climberElevate(.5);
+    RobotContainer.m_Climber.climberElevate(.75);
   }
 
   // Called once the command ends or is interrupted.

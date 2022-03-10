@@ -48,7 +48,7 @@ public class Climber extends SubsystemBase {
     climberRotate.configMotionCruiseVelocity(5000);
     climberRotate.configMotionAcceleration(5000);
 
-    climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
+    climberSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
 
     rotateLimitSwitch = new DigitalInput(1);
     elevateLimitSwitch = new DigitalInput(2);

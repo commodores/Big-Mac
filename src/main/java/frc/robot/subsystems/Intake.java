@@ -45,7 +45,7 @@ public class Intake extends SubsystemBase {
     intake2.setIdleMode(IdleMode.kBrake);
     intake3.setIdleMode(IdleMode.kBrake);
 
-    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 3);
+    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
     
     limitSwitch = new DigitalInput(0);
 

@@ -21,7 +21,7 @@ public class ShootHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter.setRPM(4650);
+    RobotContainer.m_shooter.setRPM(3900);
     RobotContainer.m_shooter.setHighShot();
   }
 

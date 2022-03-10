@@ -57,7 +57,7 @@ public class Shooter extends SubsystemBase {
           shooterMotor.enableVoltageCompensation(true);
       }
 
-      shooterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
+      shooterSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
 
 
       shooterMotors[0].setInverted(false);

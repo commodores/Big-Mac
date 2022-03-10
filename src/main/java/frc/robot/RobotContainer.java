@@ -24,6 +24,7 @@ import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberIn;
 import frc.robot.commands.ClimberOut;
 import frc.robot.commands.ClimberUp;
+import frc.robot.commands.CrazyShot;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.FireBalls;
 import frc.robot.commands.FlashyMove;
@@ -83,6 +84,9 @@ public class RobotContainer {
 
     new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
      .whileHeld(new ShootHigh());
+
+    new JoystickButton(m_driverController, Button.kB.value)
+     .whileHeld(new CrazyShot());
 
     //Intake
 
