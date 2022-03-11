@@ -28,6 +28,8 @@ public class Climber extends SubsystemBase {
   private final DigitalInput rotateLimitSwitch;
   private final DigitalInput elevateLimitSwitch;
 
+  public boolean climbMode;
+
   public Climber() {
 
     climberElevate = new WPI_TalonFX(Constants.ClimberConstants.kClimberElevatePort);
@@ -52,6 +54,8 @@ public class Climber extends SubsystemBase {
 
     rotateLimitSwitch = new DigitalInput(1);
     elevateLimitSwitch = new DigitalInput(2);
+
+    climbMode = false;
     
   }
 
@@ -66,7 +70,7 @@ public class Climber extends SubsystemBase {
   public void climberElevate(double speed){
     if(speed > 0 && getElevateLimitSwitch()){
       climberElevate.set(ControlMode.PercentOutput, speed);
-    } else if(speed < 0 && getClimberEncoder() >= 10000){
+    } else if(speed < 0 && getClimberEncoder() >= 9000){
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else {
       climberElevate.set(ControlMode.PercentOutput, 0);
@@ -131,6 +135,18 @@ public class Climber extends SubsystemBase {
 
   public boolean getElevateLimitSwitch(){
     return elevateLimitSwitch.get();
+  }
+
+  public void climbModeToggle(){
+    if(climbMode){
+      climbMode = false;
+    } else {
+      climbMode = true;
+    }
+  }
+
+  public boolean getClimbMode(){
+    return climbMode;
   }
 
 }

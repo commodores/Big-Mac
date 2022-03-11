@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,6 +15,34 @@ public class RedFish extends SequentialCommandGroup {
   public RedFish() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+      new ExtendIntake().withTimeout(0.1),
+      new ParallelCommandGroup(
+        new RunTrajectory("driveOffTarmac"),
+        new RunIntake()
+      ).withTimeout(2),
+      new StopAutoIntake().withTimeout(0.1),
+      new ParallelCommandGroup(
+        new RunTrajectory("driveOnTarmac"),
+        new ShootHigh().withTimeout(2)
+      ),
+      new ParallelCommandGroup(
+        new ShootHigh(),
+        new FireBalls()
+      ).withTimeout(2),
+      new ParallelCommandGroup(
+        new RunTrajectory("driveToThirdBall"),
+        new RunIntake()
+      ).withTimeout(4),
+      new StopAutoIntake().withTimeout(0.1),
+      new ParallelCommandGroup(
+        new RunTrajectory("driveToThirdBallShoot"),
+        new ShootHigh().withTimeout(2)
+      ),
+      new ParallelCommandGroup(
+        new ShootHigh(),
+        new FireBalls()
+      ).withTimeout(2)
+    );
   }
 }

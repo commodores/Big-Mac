@@ -78,55 +78,62 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //Shooter
+    if(!m_Climber.getClimbMode()){
+      new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
+        .whileHeld(new ShootLow());
 
-    new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
-      .whileHeld(new ShootLow());
+      new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
+      .whileHeld(new ShootHigh());
 
-    new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
-     .whileHeld(new ShootHigh());
-
-    new JoystickButton(m_driverController, Button.kB.value)
-     .whileHeld(new CrazyShot());
+      new JoystickButton(m_driverController, Button.kB.value)
+      .whileHeld(new CrazyShot());
+    
 
     //Intake
 
-    new JoystickButton(m_driver2Controller, Button.kA.value)
-      .whileHeld(new IntakeCommand());
-    
-    new JoystickButton(m_driverController, Button.kA.value)
-      .whileHeld(new FireBalls());
+      new JoystickButton(m_driver2Controller, Button.kA.value)
+        .whileHeld(new IntakeCommand());
+      
+      new JoystickButton(m_driverController, Button.kA.value)
+        .whileHeld(new FireBalls());
 
-    new JoystickButton(m_driver2Controller, Button.kB.value)
-      .whileHeld(new ClearHopper());
-    
+      new JoystickButton(m_driver2Controller, Button.kB.value)
+        .whileHeld(new ClearHopper());      
 
-    new JoystickButton(m_driver2Controller, Button.kX.value)
-      .whenPressed(() -> m_intake.extendIntake());
+      new JoystickButton(m_driver2Controller, Button.kX.value)
+        .whenPressed(() -> m_intake.extendIntake());
 
-    new JoystickButton(m_driver2Controller, Button.kY.value)
-      .whenPressed(() -> m_intake.retractIntake());
+      new JoystickButton(m_driver2Controller, Button.kY.value)
+        .whenPressed(() -> m_intake.retractIntake());
 
+      new JoystickButton(m_driverController, Button.kStart.value)
+        .whenPressed(() -> m_Climber.climbModeToggle());
+        
+    } else {
 
-    //Climber
-    /*
-    new JoystickButton(m_driverController, Button.kY.value)
-    .whileHeld(new ClimberUp());
+      //Climber
+      
+      new JoystickButton(m_driverController, Button.kY.value)
+      .whileHeld(new ClimberUp());
 
-    new JoystickButton(m_driverController, Button.kA.value)
-    .whileHeld(new ClimberDown());
+      new JoystickButton(m_driverController, Button.kA.value)
+      .whileHeld(new ClimberDown());
 
-    new JoystickButton(m_driverController, Button.kX.value)
-    .whileHeld(new ClimberOut());
+      new JoystickButton(m_driverController, Button.kX.value)
+      .whileHeld(new ClimberOut());
 
-    new JoystickButton(m_driverController, Button.kB.value)
-    .whileHeld(new ClimberIn());
+      new JoystickButton(m_driverController, Button.kB.value)
+      .whileHeld(new ClimberIn());
 
-    new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
-    .whenPressed(() -> m_Climber.climberLock());
+      new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
+      .whenPressed(() -> m_Climber.climberLock());
 
-    new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
-    .whenPressed(() -> m_Climber.climberUnlock());  
-    */
+      new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
+      .whenPressed(() -> m_Climber.climberUnlock());
+
+      new JoystickButton(m_driverController, Button.kStart.value)
+        .whenPressed(() -> m_Climber.climbModeToggle());
+    }
   }
 
   private void initializeStartup() {

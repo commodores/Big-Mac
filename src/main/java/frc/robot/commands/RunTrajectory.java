@@ -82,7 +82,7 @@ public Trajectory getDriveOffTarmacPath(){
       List.of(
       //  new Translation2d(1, 0)
       ),
-      new Pose2d(2, 0, new Rotation2d(0)),
+      new Pose2d(1.75, 0, new Rotation2d(0)),
       // Pass config
       config);
   return driveOffTarmac;
@@ -90,7 +90,7 @@ public Trajectory getDriveOffTarmacPath(){
 
 public Trajectory getDriveOnTarmacPath(){
   Trajectory driveOnTarmac = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(2, 0, new Rotation2d(0)),
+      new Pose2d(1.75, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints
       List.of(
       //  new Translation2d(1, 0)
@@ -100,6 +100,34 @@ public Trajectory getDriveOnTarmacPath(){
       configBackwards);
   return driveOnTarmac;
 }
+
+public Trajectory getDriveToThirdBall(){
+    Trajectory driveToThirdBall = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints
+      List.of(
+        //new Translation2d(.5, -.5)
+      ),
+      new Pose2d(.75, -2.5, new Rotation2d(-45)),
+      // Pass config
+      config);
+  return driveToThirdBall;
+}
+
+public Trajectory getDriveToThirdBallShoot(){
+  Trajectory driveToThirdBallShoot = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(.75, -2.5, new Rotation2d(0)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(-.5, -1, new Rotation2d(-45)),
+    // Pass config
+    configBackwards);
+return driveToThirdBallShoot;
+}
+
+
 
 /** Creates a new AutoDrive. */
 public RunTrajectory(String getPath) {
@@ -112,6 +140,10 @@ public RunTrajectory(String getPath) {
     trajectory = getDriveOffTarmacPath();
   } else if(path.equals("driveOnTarmac")){
     trajectory = getDriveOnTarmacPath();
+  } else if(path.equals("driveToThirdBall")){
+    trajectory = getDriveToThirdBall();
+  } else if(path.equals("driveToThirdBallShoot")){
+    trajectory = getDriveToThirdBallShoot();
   } else {
     trajectory = getDriveOffTarmacPath();
   }  
