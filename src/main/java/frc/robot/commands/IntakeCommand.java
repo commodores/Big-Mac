@@ -25,11 +25,11 @@ public class IntakeCommand extends CommandBase {
   public void execute() {
     if(RobotContainer.m_intake.getLimitSwitch()){
       RobotContainer.m_intake.runIntake1(-1);
-      RobotContainer.m_intake.runIntake2(-1);
+      RobotContainer.m_intake.runIntake2(-.5);
       RobotContainer.m_intake.runIntake3(-.5);
     } else {
       RobotContainer.m_intake.runIntake1(-1);
-      RobotContainer.m_intake.runIntake2(-1);
+      RobotContainer.m_intake.runIntake2(-.25);
       RobotContainer.m_intake.stopIntake3();
     }
     
