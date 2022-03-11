@@ -54,6 +54,7 @@ public class RobotContainer {
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
+  public final XboxController m_driver3Controller = new XboxController(OIConstants.kDriverController3Port);
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
   
@@ -78,7 +79,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //Shooter
-    if(!m_Climber.getClimbMode()){
+    
       new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
         .whileHeld(new ShootLow());
 
@@ -104,36 +105,29 @@ public class RobotContainer {
         .whenPressed(() -> m_intake.extendIntake());
 
       new JoystickButton(m_driver2Controller, Button.kY.value)
-        .whenPressed(() -> m_intake.retractIntake());
+        .whenPressed(() -> m_intake.retractIntake());        
+    
 
-      new JoystickButton(m_driverController, Button.kStart.value)
-        .whenPressed(() -> m_Climber.climbModeToggle());
-        
-    } else {
-
-      //Climber
+    //Climber
       
-      new JoystickButton(m_driverController, Button.kY.value)
+      new JoystickButton(m_driver3Controller, Button.kY.value)
       .whileHeld(new ClimberUp());
 
-      new JoystickButton(m_driverController, Button.kA.value)
+      new JoystickButton(m_driver3Controller, Button.kA.value)
       .whileHeld(new ClimberDown());
 
-      new JoystickButton(m_driverController, Button.kX.value)
+      new JoystickButton(m_driver3Controller, Button.kX.value)
       .whileHeld(new ClimberOut());
 
-      new JoystickButton(m_driverController, Button.kB.value)
+      new JoystickButton(m_driver3Controller, Button.kB.value)
       .whileHeld(new ClimberIn());
 
-      new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
+      new JoystickButton(m_driver3Controller, Button.kLeftBumper.value)
       .whenPressed(() -> m_Climber.climberLock());
 
-      new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
+      new JoystickButton(m_driver3Controller, Button.kRightBumper.value)
       .whenPressed(() -> m_Climber.climberUnlock());
-
-      new JoystickButton(m_driverController, Button.kStart.value)
-        .whenPressed(() -> m_Climber.climbModeToggle());
-    }
+    
   }
 
   private void initializeStartup() {

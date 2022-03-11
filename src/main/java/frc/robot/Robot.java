@@ -63,9 +63,6 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Angle", RobotContainer.m_drivetrain.getDirection());
     SmartDashboard.putBoolean("Climber Lock", RobotContainer.m_Climber.getLockState());
-
-    
-    SmartDashboard.putBoolean("Climb Mode", RobotContainer.m_Climber.climbMode);
   }
   
 
