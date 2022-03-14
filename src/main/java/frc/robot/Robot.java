@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.ReadyToClimb;
+import frc.robot.commands.ReturnClimberToShoot;
 
 
 /**
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
 
     RobotContainer.m_Climber.resetClimberEncoders();
     SmartDashboard.putData("Ready to Climb!", new ReadyToClimb());
+    SmartDashboard.putData("Back to Shooting!", new ReturnClimberToShoot());
   }
 
   /**

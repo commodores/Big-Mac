@@ -106,7 +106,6 @@ public class RobotContainer {
 
       new JoystickButton(m_driver2Controller, Button.kY.value)
         .whenPressed(() -> m_intake.retractIntake());        
-    
 
     //Climber
       
