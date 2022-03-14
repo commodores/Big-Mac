@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -20,7 +21,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.DriveConstants;
 
 import java.util.List;
-
 
 public class RunTrajectory extends CommandBase {
 private final RamseteCommand ramsete;
@@ -40,7 +40,8 @@ TrajectoryConfig config =
         // Add kinematics to ensure max speed is actually obeyed
         .setKinematics(DriveConstants.kDriveKinematics)
         // Apply the voltage constraint
-        .addConstraint(autoVoltageConstraint);
+        .addConstraint(autoVoltageConstraint)
+        .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kMaxCentripetalAccel));
 
 // Create config for trajectory
 TrajectoryConfig configBackwards =
@@ -50,15 +51,16 @@ TrajectoryConfig configBackwards =
         .setKinematics(DriveConstants.kDriveKinematics)
         .setReversed(true)
         // Apply the voltage constraint
-        .addConstraint(autoVoltageConstraint);
+        .addConstraint(autoVoltageConstraint)
+        .addConstraint(new CentripetalAccelerationConstraint(DriveConstants.kMaxCentripetalAccel));
 
 
 /**
  * Define Paths here
  * 
  */
-public Trajectory getDriveToFirstBallPath(){
-    Trajectory driveToFirstBall = TrajectoryGenerator.generateTrajectory(
+public Trajectory getTestPath(){
+    Trajectory testPath = TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
@@ -70,40 +72,100 @@ public Trajectory getDriveToFirstBallPath(){
         new Pose2d(3, 0, new Rotation2d(0)),
         // Pass config
         config);
-    return driveToFirstBall;
+    return testPath;
 }
+
+public Trajectory getDriveOffTarmacPath(){
+  Trajectory driveOffTarmac = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints
+      List.of(
+      //  new Translation2d(1, 0)
+      ),
+      new Pose2d(1.75, 0, new Rotation2d(0)),
+      // Pass config
+      config);
+  return driveOffTarmac;
+}
+
+public Trajectory getDriveOnTarmacPath(){
+  Trajectory driveOnTarmac = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(1.75, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints
+      List.of(
+      //  new Translation2d(1, 0)
+      ),
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass config
+      configBackwards);
+  return driveOnTarmac;
+}
+
+public Trajectory getDriveToThirdBall(){
+    Trajectory driveToThirdBall = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints
+      List.of(
+        //new Translation2d(.5, -.5)
+      ),
+      new Pose2d(.75, -2.5, new Rotation2d(-45)),
+      // Pass config
+      config);
+  return driveToThirdBall;
+}
+
+public Trajectory getDriveToThirdBallShoot(){
+  Trajectory driveToThirdBallShoot = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(.75, -2.5, new Rotation2d(-45)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(0, 0, new Rotation2d(0)),
+    // Pass config
+    configBackwards);
+return driveToThirdBallShoot;
+}
+
+
 
 /** Creates a new AutoDrive. */
 public RunTrajectory(String getPath) {
   // Use addRequirements() here to declare subsystem dependencies.
   addRequirements(RobotContainer.m_drivetrain);
   String path = getPath;
-  switch(path){
-    case "firstBall":
-      trajectory = getDriveToFirstBallPath();
-    default:
-      trajectory = getDriveToFirstBallPath();
+  if(path.equals("testPath")){
+    trajectory = getTestPath();
+  } else if(path.equals("driveOffTarmac")){
+    trajectory = getDriveOffTarmacPath();
+  } else if(path.equals("driveOnTarmac")){
+    trajectory = getDriveOnTarmacPath();
+  } else if(path.equals("driveToThirdBall")){
+    trajectory = getDriveToThirdBall();
+  } else if(path.equals("driveToThirdBallShoot")){
+    trajectory = getDriveToThirdBallShoot();
+  } else {
+    trajectory = getDriveOffTarmacPath();
+  }  
+  
+  this.ramsete = new RamseteCommand(
+      trajectory,
+      RobotContainer.m_drivetrain::getPose,
+      new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
+      new SimpleMotorFeedforward(DriveConstants.ksVolts,
+                                  DriveConstants.kvVoltSecondsPerMeter,
+                                  DriveConstants.kaVoltSecondsSquaredPerMeter),
+      DriveConstants.kDriveKinematics,
+      RobotContainer.m_drivetrain::getWheelSpeeds,
+      new PIDController(DriveConstants.kPDriveVel, 0, 0),
+      new PIDController(DriveConstants.kPDriveVel, 0, 0),
+      // RamseteCommand passes volts to the callback
+      RobotContainer.m_drivetrain::tankDriveVolts,
+      RobotContainer.m_drivetrain
+  );
+
+
 }
-  
-  
-this.ramsete = new RamseteCommand(
-    trajectory,
-    RobotContainer.m_drivetrain::getPose,
-    new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta),
-    new SimpleMotorFeedforward(DriveConstants.ksVolts,
-                                DriveConstants.kvVoltSecondsPerMeter,
-                                DriveConstants.kaVoltSecondsSquaredPerMeter),
-    DriveConstants.kDriveKinematics,
-    RobotContainer.m_drivetrain::getWheelSpeeds,
-    new PIDController(DriveConstants.kPDriveVel, 0, 0),
-    new PIDController(DriveConstants.kPDriveVel, 0, 0),
-    // RamseteCommand passes volts to the callback
-    RobotContainer.m_drivetrain::tankDriveVolts,
-    RobotContainer.m_drivetrain
-);
-
-
-  }
 
 @Override
   public void initialize() {

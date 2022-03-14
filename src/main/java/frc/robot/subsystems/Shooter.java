@@ -14,6 +14,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
+import edu.wpi.first.wpilibj.Solenoid;
+
+
 public class Shooter extends SubsystemBase {
   // PID loop constants
   private double kF = ShooterConstants.kShooterF;
@@ -34,6 +39,9 @@ public class Shooter extends SubsystemBase {
 
   private double setpoint;
 
+  private final Solenoid shooterSolenoid;
+
+
 
   //    public PIDController flywheelController = new PIDController(kP, kI, kD);
   //    public SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
@@ -48,6 +56,10 @@ public class Shooter extends SubsystemBase {
           shooterMotor.configVoltageCompSaturation(11);
           shooterMotor.enableVoltageCompensation(true);
       }
+
+      shooterSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
+
+
       shooterMotors[0].setInverted(false);
       shooterMotors[1].setInverted(true);
       shooterMotors[1].follow(shooterMotors[0], FollowerType.PercentOutput);
@@ -114,6 +126,13 @@ public class Shooter extends SubsystemBase {
       return (RPM / 600.0) * 2048.0;
   }
 
+  public void setHighShot() {
+    shooterSolenoid.set(true);
+  }
+
+  public void setLowShot() {
+    shooterSolenoid.set(false);
+  }
 
   @Override
   public void periodic() {

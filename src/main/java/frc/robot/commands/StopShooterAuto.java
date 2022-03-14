@@ -7,28 +7,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class ClimberDown extends CommandBase {
-  /** Creates a new ClimberDown. */
-  public ClimberDown() {
+public class StopShooterAuto extends CommandBase {
+  /** Creates a new StopShooterAuto. */
+  public StopShooterAuto() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_Climber);
+    addRequirements(RobotContainer.m_shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    RobotContainer.m_shooter.setRPM(-1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    RobotContainer.m_Climber.climberElevate(-.75);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.m_Climber.stopClimberElevate();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

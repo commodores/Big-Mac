@@ -38,7 +38,7 @@ public final class Constants {
         public static final double ksVolts = 0.68824;
         public static final double kvVoltSecondsPerMeter = 2.389;
         public static final double kaVoltSecondsSquaredPerMeter = 0.4162;
-        public static final double kPDriveVel = .75; //2.24;   // 2.29
+        public static final double kPDriveVel = .5; //2.24;   // 2.29
 
         public static final double kTrackwidthMeters = 0.648716;//CAD //.5715 Tape //0.59825 From Char Tool
         public static final DifferentialDriveKinematics kDriveKinematics =
@@ -51,6 +51,8 @@ public final class Constants {
 
         public static final double kMaxSpeedMetersPerSecond = 1.75;
         public static final double kMaxAccelerationMetersPerSecondSquared = 1.75;
+        public static final double kMaxCentripetalAccel = 1.25;
+
 
         public static final boolean kGyroReversed = true;
 
@@ -65,10 +67,10 @@ public final class Constants {
 
         public static final double kShooterVoltageRampRate = 0.2;
 
-        public static final double kShooterP = 0.0075;
+        public static final double kShooterP = 0.0055;
         public static final double kShooterI = 0; //1
         public static final double kShooterD = 0; //5
-        public static final double kShooterF = 0.03; // 0.058
+        public static final double kShooterF = 0.04; // 0.058
 
         public static final int kAllowableError = 50;
         public static final int kPIDLoopRate = 10; //In ms
@@ -78,6 +80,7 @@ public final class Constants {
     public static final class OIConstants{
         public static final int kDriverControllerPort = 0;
         public static final int kDriverController2Port = 1;
+        public static final int kDriverController3Port = 2;
     }
 
     public static final class IntakeConstants{

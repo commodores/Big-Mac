@@ -11,7 +11,6 @@ public class ShootLow extends CommandBase {
   /** Creates a new ShootLow. */
   public ShootLow() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_intake);
     addRequirements(RobotContainer.m_shooter);
   }
 
@@ -22,8 +21,8 @@ public class ShootLow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter.setRPM(3150);
-    RobotContainer.m_intake.lowShot();
+    RobotContainer.m_shooter.setRPM(2400);
+    RobotContainer.m_shooter.setLowShot();
   }
 
   // Called once the command ends or is interrupted.

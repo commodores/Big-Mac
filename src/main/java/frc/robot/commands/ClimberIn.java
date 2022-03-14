@@ -21,7 +21,7 @@ public class ClimberIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_Climber.climberRotate(-.5);
+    RobotContainer.m_Climber.climberRotate(-.75);
   }
 
   // Called once the command ends or is interrupted.
@@ -33,6 +33,6 @@ public class ClimberIn extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.m_Climber.getRotateEncoder() <= 0;
+    return false;
   }
 }

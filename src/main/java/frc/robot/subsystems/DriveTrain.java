@@ -14,8 +14,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -27,22 +25,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class DriveTrain extends SubsystemBase {
   /** Creates a new DriveTrain. */
-  private final WPI_TalonFX rightMasterMotor;
-  private final WPI_TalonFX leftMasterMotor;
-
-  private final WPI_TalonFX rightSlaveMotor;
-  private final WPI_TalonFX leftSlaveMotor;
+  private final WPI_TalonFX rightMasterMotor, leftMasterMotor, rightSlaveMotor, leftSlaveMotor;
 
   private PigeonIMU pigeon;
 
-  private MotorControllerGroup left_falcons;
-  private MotorControllerGroup right_falcons;
+  private MotorControllerGroup left_falcons, right_falcons;
 
   private final DifferentialDrive m_drive;
 
   private DifferentialDriveOdometry m_odometry;
 
-  private SlewRateLimiter m_speedSlew = new SlewRateLimiter(6);
+  private SlewRateLimiter m_speedSlew;
 
 
   public DriveTrain() {//DriveTrain Electronics
@@ -54,6 +47,7 @@ public class DriveTrain extends SubsystemBase {
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
 
+    m_speedSlew = new SlewRateLimiter(4);
 
   //Set Electronics To Default
     rightMasterMotor.configFactoryDefault();
@@ -81,9 +75,6 @@ public class DriveTrain extends SubsystemBase {
     left_falcons.setInverted(true);
     right_falcons.setInverted(false);
 
-    //leftMasterMotor.configOpenloopRamp(.2);
-    //rightMasterMotor.configOpenloopRamp(.2);
-
     m_drive = new DifferentialDrive(left_falcons, right_falcons);
 
 
@@ -103,10 +94,6 @@ public class DriveTrain extends SubsystemBase {
       getRightDistance()
     );
 
-
-    //SmartDashboard.putNumber("Left Encoder", getLeftDistance());
-    //SmartDashboard.putNumber("Right Encoder", getRightDistance());
-    //SmartDashboard.putNumber("Heading", getDirection());
   }
 
   
@@ -121,11 +108,8 @@ public class DriveTrain extends SubsystemBase {
   }  
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    //m_drive.curvatureDrive(m_speedSlew.calculate(speed), m_turnSlew.calculate(rotation), quickturn);
-    m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.8, quickturn);
+    m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.7, quickturn);
   }
-
-  
 
   public void resetEncoders() {
     leftMasterMotor.setSelectedSensorPosition(0);
@@ -201,8 +185,6 @@ public class DriveTrain extends SubsystemBase {
   public void setMaxOutput(double maxOutput) {
     m_drive.setMaxOutput(maxOutput);
   }
-
-  
 
 
 }

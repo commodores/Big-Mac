@@ -11,7 +11,6 @@ public class ShootHigh extends CommandBase {
   /** Creates a new ShootHigh. */
   public ShootHigh() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_intake);
     addRequirements(RobotContainer.m_shooter);
   }
 
@@ -22,8 +21,8 @@ public class ShootHigh extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_shooter.setRPM(4750);
-    RobotContainer.m_intake.highShot();
+    RobotContainer.m_shooter.setRPM(3900);//3900
+    RobotContainer.m_shooter.setHighShot();
   }
 
   // Called once the command ends or is interrupted.

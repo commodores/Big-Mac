@@ -11,9 +11,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
@@ -28,16 +28,13 @@ public class Intake extends SubsystemBase {
 
 
   
-  private final DigitalInput toplimitSwitch;
-  private final DigitalInput bottomlimitSwitch;
+  private final DigitalInput limitSwitch;
+ 
 
-  private final Solenoid shooterSolenoid;
+  private final DoubleSolenoid intakeSolenoid;
 
-  //private final Solenoid intakeSolenoid;
 
   public Intake() {
-
-    //intakeSolenoid = new Solenoid(IntakeConstants.kIntakeSolenoidPort);
     intake1 = new WPI_TalonFX(IntakeConstants.kIntakeMotor1Port);
 
     intake1.setNeutralMode(NeutralMode.Brake);
@@ -48,49 +45,53 @@ public class Intake extends SubsystemBase {
     intake2.setIdleMode(IdleMode.kBrake);
     intake3.setIdleMode(IdleMode.kBrake);
 
-    shooterSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 1);
-
-    toplimitSwitch = new DigitalInput(0);
-    bottomlimitSwitch = new DigitalInput(1);
-
+    intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 3);
+    
+    limitSwitch = new DigitalInput(0);
 
   }
 
-
-  public void runIntake(double speed){
+  public void runIntake1(double speed){
     intake1.set(speed);
+  }
+
+  public void runIntake2(double speed){
     intake2.set(-speed);
+  }
+
+  public void runIntake3(double speed){
     intake3.set(speed);
   }
 
-  public void stopIntake(){
+  public void stopIntake1(){
     intake1.set(0.0);
+  }
+
+  public void stopIntake2(){
     intake2.set(0.0);
+  }
+
+  public void stopIntake3(){
     intake3.set(0.0);
   }
 
-  public void highShot() {
-    shooterSolenoid.set(true);
+  public boolean getLimitSwitch() {
+		return limitSwitch.get();
+	} 
+  
+  public void extendIntake() {
+    intakeSolenoid.set(Value.kForward);
   }
 
-  public void lowShot() {
-    shooterSolenoid.set(false);
+  public void retractIntake() {
+    intakeSolenoid.set(Value.kReverse);
   }
-
-  public boolean getUpper() {
-		return toplimitSwitch.get();
-	}
-
-  public boolean getLower() {
-		return bottomlimitSwitch.get();
-	}
- 
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Upper Limit Switch",  getUpper());
-    SmartDashboard.putBoolean("Bottom Limit Swicth", getLower());
+    SmartDashboard.putBoolean("Upper Limit Switch", getLimitSwitch());
+   
   }
 
 }

@@ -12,20 +12,29 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.IntakePneumatics;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.AppleSauceNumberOne;
+import frc.robot.commands.BlueFish;
+import frc.robot.commands.ClearHopper;
 import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberIn;
 import frc.robot.commands.ClimberOut;
 import frc.robot.commands.ClimberUp;
+import frc.robot.commands.CrazyShot;
 import frc.robot.commands.DriveManual;
+import frc.robot.commands.FireBalls;
+import frc.robot.commands.FlashyMove;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.LeeroyJenkins;
+import frc.robot.commands.RedFish;
 import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
+import frc.robot.commands.TwoFish;
 
 
 
@@ -41,11 +50,11 @@ public class RobotContainer {
   public final static DriveTrain m_drivetrain = new DriveTrain();
   public final static Climber m_Climber = new Climber();
   public final static Intake m_intake = new Intake();
-  public final static IntakePneumatics mPneumatics = new IntakePneumatics();
   public final static Shooter m_shooter = new Shooter();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
+  public final XboxController m_driver3Controller = new XboxController(OIConstants.kDriverController3Port);
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
   
@@ -70,56 +79,57 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //Shooter
+    
+      new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
+        .whileHeld(new ShootLow());
 
-    new JoystickButton(m_driverController, Button.kLeftBumper.value)
-      .whileHeld(new ShootLow());
-
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
+      new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
       .whileHeld(new ShootHigh());
+
+      new JoystickButton(m_driverController, Button.kB.value)
+      .whileHeld(new CrazyShot());
+    
 
     //Intake
 
-    new JoystickButton(m_driver2Controller, Button.kA.value)
-      .whileHeld(() -> m_intake.runIntake(-1.0))
-      .whenReleased(() -> m_intake.stopIntake());
+      new JoystickButton(m_driver2Controller, Button.kA.value)
+        .whileHeld(new IntakeCommand());
+      
+      new JoystickButton(m_driverController, Button.kA.value)
+        .whileHeld(new FireBalls());
 
-    new JoystickButton(m_driver2Controller, Button.kB.value)
-    .whileHeld(() -> m_intake.runIntake(1.0))
-    .whenReleased(() -> m_intake.stopIntake());
+      new JoystickButton(m_driver2Controller, Button.kB.value)
+        .whileHeld(new ClearHopper());      
 
-    new JoystickButton(m_driver2Controller, Button.kX.value)
-    .whenPressed(() -> mPneumatics.extendIntake());
+      new JoystickButton(m_driver2Controller, Button.kX.value)
+        .whenPressed(() -> m_intake.extendIntake());
 
-    new JoystickButton(m_driver2Controller, Button.kY.value)
-    .whenPressed(() -> mPneumatics.retractIntake());
+      new JoystickButton(m_driver2Controller, Button.kY.value)
+        .whenPressed(() -> m_intake.retractIntake());        
 
     //Climber
+      
+      new JoystickButton(m_driver3Controller, Button.kY.value)
+      .whileHeld(new ClimberUp());
 
-    new JoystickButton(m_driverController, Button.kY.value)
-    .whileHeld(new ClimberUp());
+      new JoystickButton(m_driver3Controller, Button.kA.value)
+      .whileHeld(new ClimberDown());
 
-    new JoystickButton(m_driverController, Button.kA.value)
-    .whileHeld(new ClimberDown());
+      new JoystickButton(m_driver3Controller, Button.kX.value)
+      .whileHeld(new ClimberOut());
 
-    new JoystickButton(m_driverController, Button.kX.value)
-    .whileHeld(new ClimberOut());
+      new JoystickButton(m_driver3Controller, Button.kB.value)
+      .whileHeld(new ClimberIn());
 
-    new JoystickButton(m_driverController, Button.kB.value)
-    .whileHeld(new ClimberIn());
+      new JoystickButton(m_driver3Controller, Button.kLeftBumper.value)
+      .whenPressed(() -> m_Climber.climberLock());
 
-    new JoystickButton(m_driver2Controller, Button.kLeftBumper.value)
-    .whenPressed(() -> m_Climber.climberLock());
-
-    new JoystickButton(m_driver2Controller, Button.kRightBumper.value)
-    .whenPressed(() -> m_Climber.climberUnlock());
-
-
-
+      new JoystickButton(m_driver3Controller, Button.kRightBumper.value)
+      .whenPressed(() -> m_Climber.climberUnlock());
+    
   }
 
   private void initializeStartup() {
-    
-    //SmartDashboard.putData("Ramp it up!!", new AutoShoot());
     m_drivetrain.setDefaultCommand(
       new DriveManual(m_drivetrain));
   }
@@ -134,9 +144,13 @@ public class RobotContainer {
   {
     /* Add options (which autonomous commands can be selected) to chooser. */
     m_autoChooser.setDefaultOption("Do Nothing", "doNothing");
-    m_autoChooser.addOption("Test 1", "testAuto1");
-    m_autoChooser.addOption("Test 2", "testAuto2");
-    m_autoChooser.addOption("Test 3", "testAuto3");
+    m_autoChooser.addOption("Test It", "testPath");
+    m_autoChooser.addOption("Drive off Tarmac", "offTarmac");
+    m_autoChooser.addOption("1 ball", "ball1");
+    m_autoChooser.addOption("2 ball", "ball2");
+    m_autoChooser.addOption("3 ball", "ball3");
+    m_autoChooser.addOption("4 ball", "ball4");
+    m_autoChooser.addOption("5 ball", "ball5");
 
     /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
@@ -152,15 +166,41 @@ public class RobotContainer {
     
     switch (m_autoChooser.getSelected())
     {
-      case "testAuto1":
+      case "testPath" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
         RobotContainer.m_drivetrain.zeroSensors();
-        return new RunTrajectory("firstBall");
-      case "testAuto2" :
-        //return new SixBallAuto();
-      
-      case "testAuto3" :
-        //return new DefenseTrench();
-    
+        return new RunTrajectory("testPath");
+
+      case "offTarmac":
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new FlashyMove();
+
+      case "ball1" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new AppleSauceNumberOne();
+
+      case "ball2" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new TwoFish();
+
+      case "ball3" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new RedFish();
+
+      case "ball4" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new BlueFish();
+
+      case "ball5" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new LeeroyJenkins();
+
       default:
         System.out.println("\nError selecting autonomous command:\nCommand selected: " + m_autoChooser.getSelected() + "\n");
         return null;

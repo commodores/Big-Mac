@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,9 @@ public class Climber extends SubsystemBase {
   private final TalonSRX climberRotate;
   private final Solenoid climberSolenoid;
 
+  private final DigitalInput rotateLimitSwitch;
+  private final DigitalInput elevateLimitSwitch;
+
   public Climber() {
 
     climberElevate = new WPI_TalonFX(Constants.ClimberConstants.kClimberElevatePort);
@@ -31,41 +35,63 @@ public class Climber extends SubsystemBase {
     climberElevate.setNeutralMode(NeutralMode.Brake);
     climberElevate.set(ControlMode.PercentOutput, 0.0);
     climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    climberElevate.config_kP(0, 0.1);
+    climberElevate.configMotionCruiseVelocity(5000);
+    climberElevate.configMotionAcceleration(5000);
   
     climberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
     climberRotate.configFactoryDefault();
     climberRotate.setNeutralMode(NeutralMode.Brake);
     climberRotate.set(ControlMode.PercentOutput, 0.0);
     climberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    climberRotate.config_kP(0, 0.1);
+    climberRotate.configMotionCruiseVelocity(5000);
+    climberRotate.configMotionAcceleration(5000);
 
-    climberSolenoid = new Solenoid(PneumaticsModuleType.REVPH, 2);
+    climberSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
+
+    rotateLimitSwitch = new DigitalInput(1);
+    elevateLimitSwitch = new DigitalInput(2);
+    
   }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
     SmartDashboard.putNumber("ClimberRotate Motor", climberRotate.getSelectedSensorPosition());
     SmartDashboard.putNumber("ClimberElevate Motor", climberElevate.getSelectedSensorPosition());
     
   }
   public void climberElevate(double speed){
-    if(speed > 0 && getClimberEncoder() <= 270000){
+    if(speed > 0 && getElevateLimitSwitch()){
       climberElevate.set(ControlMode.PercentOutput, speed);
-    } else if(speed < 0 && getClimberEncoder() >= 2500){
+    } else if(speed < 0 && getClimberEncoder() >= 9000){
       climberElevate.set(ControlMode.PercentOutput, speed);
+    } else {
+      climberElevate.set(ControlMode.PercentOutput, 0);
     }
+  }
+
+  public void elevateMagic(double position){
+    climberElevate.set(ControlMode.MotionMagic, position);
   }
 
   public void climberRotate(double speed){
-    if(speed > 0 && getRotateEncoder() <= 7865){
-      climberRotate.set(ControlMode.PercentOutput, speed);
-    } else if(speed < 0 && getRotateEncoder() >= 0){
-      climberRotate.set(ControlMode.PercentOutput, speed);
+    if(getLockState()){
+      if(speed > 0 && getRotateEncoder() <= 7865){
+        climberRotate.set(ControlMode.PercentOutput, speed);
+      } else if(speed < 0 && getRotateLimitSwitch()){
+        climberRotate.set(ControlMode.PercentOutput, speed);
+      } else{
+        climberRotate.set(ControlMode.PercentOutput, 0);
+      }
     }
   }
 
+  public void rotateMagic(double position){
+    climberRotate.set(ControlMode.MotionMagic, position);
+  }
 
   public void stopClimberElevate(){
     climberElevate.set(ControlMode.PercentOutput, 0.0);
@@ -75,9 +101,9 @@ public class Climber extends SubsystemBase {
     climberRotate.set(ControlMode.PercentOutput, 0.0);
   }
 
-  public void resetEncoders() {
+  public void resetClimberEncoders() {
     climberElevate.setSelectedSensorPosition(0);
-    climberRotate.setSelectedSensorPosition(0);
+    climberRotate.setSelectedSensorPosition(3729);
   }
 
   public void climberLock(){
@@ -95,4 +121,17 @@ public class Climber extends SubsystemBase {
     return climberElevate.getSelectedSensorPosition();
   }
 
+  public boolean getLockState(){
+    return climberSolenoid.get();
+  }
+
+  public boolean getRotateLimitSwitch(){
+    return rotateLimitSwitch.get();
+  }
+
+  public boolean getElevateLimitSwitch(){
+    return elevateLimitSwitch.get();
+  }
+
 }
+  
