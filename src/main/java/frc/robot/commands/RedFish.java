@@ -18,13 +18,13 @@ public class RedFish extends SequentialCommandGroup {
     addCommands(
       new ExtendIntake().withTimeout(0.1),
       new ParallelCommandGroup(
-        new RunTrajectory("driveOffTarmac"),
-        new RunIntake()
-      ).withTimeout(2),
+        new RunTrajectory("threeBallStart"),
+        new RunIntake().withTimeout(2)
+      ),
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(
-        new RunTrajectory("driveOnTarmac"),
-        new ShootHigh().withTimeout(2)
+        new RunTrajectory("driveOnTarmacThreeBall"),
+        new ShootHigh().withTimeout(1.5)
       ),
       new ParallelCommandGroup(
         new ShootHigh(),
@@ -32,12 +32,12 @@ public class RedFish extends SequentialCommandGroup {
       ).withTimeout(2),
       new ParallelCommandGroup(
         new RunTrajectory("driveToThirdBall"),
-        new RunIntake()
-      ).withTimeout(4),
+        new RunIntake().withTimeout(3)
+      ),
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(
         new RunTrajectory("driveToThirdBallShoot"),
-        new ShootHigh().withTimeout(2)
+        new ShootHigh().withTimeout(1.5)
       ),
       new ParallelCommandGroup(
         new ShootHigh(),

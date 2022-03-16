@@ -101,14 +101,40 @@ public Trajectory getDriveOnTarmacPath(){
   return driveOnTarmac;
 }
 
+public Trajectory getThreeBallStart(){
+  Trajectory threeBallStart = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(0, 0, new Rotation2d(0)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(1.9, .75, new Rotation2d(0)),
+    // Pass config
+    config);
+return threeBallStart;
+}
+
+public Trajectory getDriveOnTarmacThreeBallPath(){
+  Trajectory driveOnTarmacThreeBall = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(1.9, .75, new Rotation2d(0)),
+      // Pass through these two interior waypoints
+      List.of(
+        //new Translation2d(1, 0)
+      ),
+      new Pose2d(.7, 0, new Rotation2d(0)),
+      // Pass config
+      configBackwards);
+  return driveOnTarmacThreeBall;
+}
+
 public Trajectory getDriveToThirdBall(){
     Trajectory driveToThirdBall = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
+      new Pose2d(.7, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints
       List.of(
         //new Translation2d(.5, -.5)
       ),
-      new Pose2d(.75, -2.5, new Rotation2d(-45)),
+      new Pose2d(1.9, -2, new Rotation2d(-45)),
       // Pass config
       config);
   return driveToThirdBall;
@@ -116,12 +142,12 @@ public Trajectory getDriveToThirdBall(){
 
 public Trajectory getDriveToThirdBallShoot(){
   Trajectory driveToThirdBallShoot = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(.75, -2.5, new Rotation2d(-45)),
+    new Pose2d(1.9, -2, new Rotation2d(-45)),
     // Pass through these two interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(0, 0, new Rotation2d(0)),
+    new Pose2d(.7, 0, new Rotation2d(0)),
     // Pass config
     configBackwards);
 return driveToThirdBallShoot;
@@ -140,6 +166,10 @@ public RunTrajectory(String getPath) {
     trajectory = getDriveOffTarmacPath();
   } else if(path.equals("driveOnTarmac")){
     trajectory = getDriveOnTarmacPath();
+  } else if(path.equals("threeBallStart")){
+    trajectory = getThreeBallStart();
+  } else if(path.equals("driveOnTarmacThreeBall")){
+    trajectory = getDriveOnTarmacThreeBallPath();
   } else if(path.equals("driveToThirdBall")){
     trajectory = getDriveToThirdBall();
   } else if(path.equals("driveToThirdBallShoot")){

@@ -77,6 +77,8 @@ public class DriveTrain extends SubsystemBase {
 
     m_drive = new DifferentialDrive(left_falcons, right_falcons);
 
+    m_drive.setSafetyEnabled(false);
+
 
     m_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
 
