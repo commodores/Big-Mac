@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
 
     RobotContainer.m_Climber.resetClimberEncoders();
     SmartDashboard.putData("Ready to Climb!", new ReadyToClimb());
-    SmartDashboard.putData("Back to Shooting!", new ReturnClimberToShoot());
+    //SmartDashboard.putData("Back to Shooting!", new ReturnClimberToShoot());
   }
 
   /**
