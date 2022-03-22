@@ -134,7 +134,7 @@ public Trajectory getDriveToThirdBall(){
       List.of(
         //new Translation2d(.5, -.5)
       ),
-      new Pose2d(1.9, -2, new Rotation2d(-45)),
+      new Pose2d(1.5, -2, new Rotation2d(-45)),
       // Pass config
       config);
   return driveToThirdBall;
@@ -142,7 +142,7 @@ public Trajectory getDriveToThirdBall(){
 
 public Trajectory getDriveToThirdBallShoot(){
   Trajectory driveToThirdBallShoot = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1.9, -2, new Rotation2d(-45)),
+    new Pose2d(1.5, -2, new Rotation2d(-45)),
     // Pass through these two interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
