@@ -153,6 +153,19 @@ public Trajectory getDriveToThirdBallShoot(){
 return driveToThirdBallShoot;
 }
 
+// Defense play to pick up red balls and throw them in hangar area
+public Trajectory getDriveToRed(){
+  Trajectory driveToRed = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(1.5, -2, new Rotation2d(-45)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(.7, 0, new Rotation2d(0)),
+    // Pass config
+    configBackwards);
+return driveToRed;
+}
 
 
 /** Creates a new AutoDrive. */
@@ -174,6 +187,8 @@ public RunTrajectory(String getPath) {
     trajectory = getDriveToThirdBall();
   } else if(path.equals("driveToThirdBallShoot")){
     trajectory = getDriveToThirdBallShoot();
+  } else if(path.equals("driveToRed")) {
+    trajectory = getDriveToRed();
   } else {
     trajectory = getDriveOffTarmacPath();
   }  
