@@ -25,6 +25,7 @@ import frc.robot.commands.ClimberIn;
 import frc.robot.commands.ClimberOut;
 import frc.robot.commands.ClimberUp;
 import frc.robot.commands.CrazyShot;
+import frc.robot.commands.DDayDefense;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.FireBalls;
 import frc.robot.commands.FlashyMove;
@@ -151,6 +152,7 @@ public class RobotContainer {
     m_autoChooser.addOption("3 ball", "ball3");
     m_autoChooser.addOption("4 ball", "ball4");
     m_autoChooser.addOption("5 ball", "ball5");
+    m_autoChooser.addOption("RedBall Defense", "doubleRedDefense");
 
     /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
@@ -200,6 +202,11 @@ public class RobotContainer {
         RobotContainer.m_drivetrain.setPos(0, 0);
         RobotContainer.m_drivetrain.zeroSensors();
         return new LeeroyJenkins();
+
+      case "doubleRedDefense" :
+        RobotContainer.m_drivetrain.setPos(0, 0);
+        RobotContainer.m_drivetrain.zeroSensors();
+        return new DDayDefense();
 
       default:
         System.out.println("\nError selecting autonomous command:\nCommand selected: " + m_autoChooser.getSelected() + "\n");

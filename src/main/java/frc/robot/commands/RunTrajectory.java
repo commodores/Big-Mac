@@ -156,17 +156,42 @@ return driveToThirdBallShoot;
 // Defense play to pick up red balls and throw them in hangar area
 public Trajectory getDriveToRed(){
   Trajectory driveToRed = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1.5, -2, new Rotation2d(-45)),
+    new Pose2d(0, 0, new Rotation2d(0)),
     // Pass through these two interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(.7, 0, new Rotation2d(0)),
+    new Pose2d(1.75, 0, new Rotation2d(0)),
     // Pass config
     configBackwards);
 return driveToRed;
 }
 
+public Trajectory getDriveToRedTwo(){
+  Trajectory driveToRedTwo = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(0, 0, new Rotation2d(-45)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(1, 8, new Rotation2d(0)),
+    // Pass config
+    configBackwards);
+return driveToRedTwo;
+}
+
+public Trajectory getDriveToHangarDefense(){
+  Trajectory driveToHangarDefense = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(0, 0, new Rotation2d(0)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(1.75, 0, new Rotation2d(0)),
+    // Pass config
+    config);
+return driveToHangarDefense;
+}
 
 /** Creates a new AutoDrive. */
 public RunTrajectory(String getPath) {
@@ -189,6 +214,10 @@ public RunTrajectory(String getPath) {
     trajectory = getDriveToThirdBallShoot();
   } else if(path.equals("driveToRed")) {
     trajectory = getDriveToRed();
+  } else if(path.equals("driveToRedTwo")) {
+    trajectory = getDriveToRedTwo();
+  } else if(path.equals("driveToHangarDefense")) {
+    trajectory = getDriveToHangarDefense();
   } else {
     trajectory = getDriveOffTarmacPath();
   }  
