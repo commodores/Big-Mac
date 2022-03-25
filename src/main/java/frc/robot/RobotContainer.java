@@ -36,6 +36,7 @@ import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
 import frc.robot.commands.TwoFish;
+import frc.robot.commands.DDayDefense;
 
 
 
@@ -152,7 +153,7 @@ public class RobotContainer {
     m_autoChooser.addOption("3 ball", "ball3");
     m_autoChooser.addOption("4 ball", "ball4");
     m_autoChooser.addOption("5 ball", "ball5");
-    m_autoChooser.addOption("RedBall Defense", "doubleRedDefense");
+    m_autoChooser.addOption("Mid RedBall Defense", "doubleRedDefense");
 
     /* Display chooser on SmartDashboard for operators to select which autonomous command to run during the auto period. */
     SmartDashboard.putData("Autonomous Command", m_autoChooser);
@@ -212,6 +213,5 @@ public class RobotContainer {
         System.out.println("\nError selecting autonomous command:\nCommand selected: " + m_autoChooser.getSelected() + "\n");
         return null;
     }
-    
   }
 }
