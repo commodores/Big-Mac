@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DDayDefense extends SequentialCommandGroup {
   /** Creates a new DDayDefense. */
-    // Defense play to pick up red balls and throw them in hangar area
+  // Defense play to pick up red balls and throw them in hangar area
   public DDayDefense() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -36,10 +36,10 @@ public class DDayDefense extends SequentialCommandGroup {
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(//drive to hangar
         new RunTrajectory("driveToHangarDefense"),
-        new ShootHigh().withTimeout(1.5)
+        new ShootLow().withTimeout(1.5)
       ),
       new ParallelCommandGroup(
-        new ShootHigh(),
+        new ShootLow(),
         new FireBalls()
       ).withTimeout(2)
     );

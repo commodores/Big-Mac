@@ -143,7 +143,7 @@ public Trajectory getDriveToThirdBall(){
 public Trajectory getDriveToThirdBallShoot(){
   Trajectory driveToThirdBallShoot = TrajectoryGenerator.generateTrajectory(
     new Pose2d(1.5, -2, new Rotation2d(-45)),
-    // Pass through these two interior waypoints
+    // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
     ),
@@ -161,33 +161,34 @@ public Trajectory getDriveToRed(){
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(1.75, 0, new Rotation2d(0)),
+    new Pose2d(1.9, 0.75, new Rotation2d(0)),
     // Pass config
-    configBackwards);
+    config);
 return driveToRed;
 }
 
 public Trajectory getDriveToRedTwo(){
   Trajectory driveToRedTwo = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0, 0, new Rotation2d(-45)),
-    // Pass through these two interior waypoints
+    new Pose2d(1.9, 0.75, new Rotation2d(-45)),
+    // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
+      new Translation2d(0, 0.8)
     ),
-    new Pose2d(1, 8, new Rotation2d(0)),
+    new Pose2d(1, 8, new Rotation2d(-45)),
     // Pass config
-    configBackwards);
+    config);
 return driveToRedTwo;
 }
 
 public Trajectory getDriveToHangarDefense(){
   Trajectory driveToHangarDefense = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0, 0, new Rotation2d(0)),
-    // Pass through these two interior waypoints
+    new Pose2d(1, 8, new Rotation2d(0)),
+    // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(1.75, 0, new Rotation2d(0)),
+    new Pose2d(3, 8, new Rotation2d(0)),
     // Pass config
     config);
 return driveToHangarDefense;
