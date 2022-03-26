@@ -13,6 +13,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Flippers;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -53,6 +54,7 @@ public class RobotContainer {
   public final static Climber m_Climber = new Climber();
   public final static Intake m_intake = new Intake();
   public final static Shooter m_shooter = new Shooter();
+  public final static Flippers m_flippers = new Flippers();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
@@ -122,13 +124,20 @@ public class RobotContainer {
 
       new JoystickButton(m_driver3Controller, Button.kB.value)
       .whileHeld(new ClimberIn());
-
+      
       new JoystickButton(m_driver3Controller, Button.kLeftBumper.value)
       .whenPressed(() -> m_Climber.climberLock());
 
       new JoystickButton(m_driver3Controller, Button.kRightBumper.value)
       .whenPressed(() -> m_Climber.climberUnlock());
-    
+  
+    //Flipper
+
+    new JoystickButton(m_driver3Controller, Button.kBack.value)
+    .whenPressed(() -> m_flippers.flipperForward());
+
+    new JoystickButton(m_driver3Controller, Button.kStart.value)
+    .whenPressed(() -> m_flippers.flipperBack());
   }
 
   private void initializeStartup() {
