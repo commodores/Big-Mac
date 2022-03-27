@@ -6,6 +6,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -59,6 +60,8 @@ public class RobotContainer {
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
   public final XboxController m_driver3Controller = new XboxController(OIConstants.kDriverController3Port);
+  public final Joystick m_arcade1 = new Joystick(OIConstants.kDriverController4Port);
+  public final Joystick m_arcade2 = new Joystick(OIConstants.kDriverController4Port);
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
   
@@ -130,6 +133,18 @@ public class RobotContainer {
 
       new JoystickButton(m_driver3Controller, Button.kRightBumper.value)
       .whenPressed(() -> m_Climber.climberUnlock());
+
+      new JoystickButton(m_arcade1, 5)
+      .whenPressed(() -> m_Climber.elevateMagic(30000));
+
+      new JoystickButton(m_arcade1, 2)
+      .whenPressed(() -> m_Climber.elevateMagic(10000));
+
+      new JoystickButton(m_arcade1, 3)
+      .whenPressed(() -> m_Climber.rotateMagic(5000));
+
+      new JoystickButton(m_arcade1, 1)
+      .whenPressed(() -> m_Climber.rotateMagic(1000));
   
     //Flipper
 
