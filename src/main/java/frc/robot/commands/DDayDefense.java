@@ -28,7 +28,7 @@ public class DDayDefense extends SequentialCommandGroup {
         new RunIntake().withTimeout(2)
       ),
       new StopAutoIntake().withTimeout(0.1),
-      new RunTrajectory("driveOnTarmac"),//go to red ball 2
+      new RunTrajectory("driveToDDefenseReset"),//go to red ball 2
       new ParallelCommandGroup(
         new RunTrajectory("driveToRedTwo"),
         new RunIntake().withTimeout(2)

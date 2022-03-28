@@ -36,8 +36,8 @@ public class Climber extends SubsystemBase {
     climberElevate.set(ControlMode.PercentOutput, 0.0);
     climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     climberElevate.config_kP(0, 0.1);
-    climberElevate.configMotionCruiseVelocity(5000);
-    climberElevate.configMotionAcceleration(5000);
+    climberElevate.configMotionCruiseVelocity(500);
+    climberElevate.configMotionAcceleration(500);
   
     climberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
     climberRotate.configFactoryDefault();
@@ -45,8 +45,8 @@ public class Climber extends SubsystemBase {
     climberRotate.set(ControlMode.PercentOutput, 0.0);
     climberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     climberRotate.config_kP(0, 0.1);
-    climberRotate.configMotionCruiseVelocity(5000);
-    climberRotate.configMotionAcceleration(5000);
+    climberRotate.configMotionCruiseVelocity(500);
+    climberRotate.configMotionAcceleration(500);
 
     climberSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 4);
 
@@ -64,7 +64,7 @@ public class Climber extends SubsystemBase {
     
   }
   public void climberElevate(double speed){
-    if(speed > 0 && getElevateLimitSwitch() && getClimberEncoder() <= 80000){
+    if(speed > 0 && getElevateLimitSwitch() && getClimberEncoder() <= 270000){
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else if(speed < 0 && getClimberEncoder() >= 9000){
       climberElevate.set(ControlMode.PercentOutput, speed);
@@ -79,9 +79,9 @@ public class Climber extends SubsystemBase {
 
   public void climberRotate(double speed){
     if(getLockState()){
-      if(speed > 0 && getRotateEncoder() <= 8200){
+      if(speed > 0 && getRotateEncoder() <= 7800){
         climberRotate.set(ControlMode.PercentOutput, speed);
-      } else if(speed < 0 && getRotateLimitSwitch()){
+      } else if(speed < 0 && getRotateLimitSwitch() && getRotateEncoder() >= -1500){
         climberRotate.set(ControlMode.PercentOutput, speed);
       } else{
         climberRotate.set(ControlMode.PercentOutput, 0);
@@ -103,7 +103,7 @@ public class Climber extends SubsystemBase {
 
   public void resetClimberEncoders() {
     climberElevate.setSelectedSensorPosition(0);
-    climberRotate.setSelectedSensorPosition(3729);
+    climberRotate.setSelectedSensorPosition(3055);
   }
 
   public void climberLock(){

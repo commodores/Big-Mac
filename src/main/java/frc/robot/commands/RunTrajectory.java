@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
@@ -154,6 +155,19 @@ return driveToThirdBallShoot;
 }
 
 // Defense play to pick up red balls and throw them in hangar area
+public Trajectory getDDefenseReset(){
+  Trajectory driveToDDefenseReset = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(1.9, 0.75, new Rotation2d(0)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(0.8, 0, new Rotation2d(0)),
+    // Pass config
+    configBackwards);
+return driveToDDefenseReset;
+}
+
 public Trajectory getDriveToRed(){
   Trajectory driveToRed = TrajectoryGenerator.generateTrajectory(
     new Pose2d(0, 0, new Rotation2d(0)),
@@ -169,15 +183,16 @@ return driveToRed;
 
 public Trajectory getDriveToRedTwo(){
   Trajectory driveToRedTwo = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1.9, 0.75, new Rotation2d(-45)),
+    new Pose2d(0.8, 0, new Rotation2d()),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
-      new Translation2d(0, 0.8)
+      //measured in meters
+      //new Translation2d(1, 45)
     ),
     new Pose2d(1, 8, new Rotation2d(-45)),
     // Pass config
-    config);
+    configBackwards);
 return driveToRedTwo;
 }
 
@@ -219,6 +234,8 @@ public RunTrajectory(String getPath) {
     trajectory = getDriveToRedTwo();
   } else if(path.equals("driveToHangarDefense")) {
     trajectory = getDriveToHangarDefense();
+  } else if(path.equals("driveToDDefenseReset")) {
+    trajectory = getDDefenseReset();
   } else {
     trajectory = getDriveOffTarmacPath();
   }  
