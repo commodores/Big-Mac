@@ -16,8 +16,7 @@ public class ReadyToClimb extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new UnLockClimber(),
-      new ClimberFullForward().withTimeout(2),
-      new LockClimber()
+      new ClimberFullForward().withTimeout(2)
     );
   }
 }
