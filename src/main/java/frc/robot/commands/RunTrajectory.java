@@ -203,22 +203,22 @@ public Trajectory getDriveToRedTwo(){
     List.of(
       //new Translation2d(.5, -.5)
       //measured in meters
-      new Translation2d(x, y)
+      new Translation2d(0.8, 1)
     ),
-    new Pose2d(1, 8, new Rotation2d(-45)),
+    new Pose2d(-1, 1, new Rotation2d(-45)),
     // Pass config
-    configBackwards);
+    config);
 return driveToRedTwo;
 }
 
 public Trajectory getDriveToHangarDefense(){
   Trajectory driveToHangarDefense = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1, 8, new Rotation2d(0)),
+    new Pose2d(-1, 1, new Rotation2d(-45)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(3, 8, new Rotation2d(0)),
+    new Pose2d(-2, 1, new Rotation2d(180)),
     // Pass config
     config);
 return driveToHangarDefense;
