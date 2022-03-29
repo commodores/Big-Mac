@@ -154,6 +154,21 @@ public Trajectory getDriveToThirdBallShoot(){
 return driveToThirdBallShoot;
 }
 
+public Trajectory getDriveToTerminal(){
+  Trajectory driveToTermainal = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(0.8, 0, new Rotation2d(-45)),
+    // Pass through these interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+      //measured in meters
+      //new Translation2d(1, 45)
+    ),
+    new Pose2d(1, 8, new Rotation2d(-45)),
+    // Pass config
+    configBackwards);
+return driveToTermainal;
+}
+
 // Defense play to pick up red balls and throw them in hangar area
 public Trajectory getDDefenseReset(){
   Trajectory driveToDDefenseReset = TrajectoryGenerator.generateTrajectory(
@@ -183,12 +198,12 @@ return driveToRed;
 
 public Trajectory getDriveToRedTwo(){
   Trajectory driveToRedTwo = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.8, 0, new Rotation2d()),
+    new Pose2d(0.8, 0, new Rotation2d(0)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
       //measured in meters
-      //new Translation2d(1, 45)
+      new Translation2d(x, y)
     ),
     new Pose2d(1, 8, new Rotation2d(-45)),
     // Pass config
@@ -232,6 +247,8 @@ public RunTrajectory(String getPath) {
     trajectory = getDriveToRed();
   } else if(path.equals("driveToRedTwo")) {
     trajectory = getDriveToRedTwo();
+  } else if(path.equals("driveToTerminal")) {
+      trajectory = getDriveToTerminal();
   } else if(path.equals("driveToHangarDefense")) {
     trajectory = getDriveToHangarDefense();
   } else if(path.equals("driveToDDefenseReset")) {
