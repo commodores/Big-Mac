@@ -18,10 +18,7 @@ public class DDayDefense extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //shoot ball
-      new ParallelCommandGroup(
-        new ShootHigh(),
-        new FireBalls()
-      ).withTimeout(2),
+      new ShootHigh().withTimeout(1),
       new ExtendIntake().withTimeout(0.1),
       new ParallelCommandGroup(//go to red ball one
         new RunTrajectory("driveToRed"),
