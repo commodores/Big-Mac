@@ -203,7 +203,7 @@ public Trajectory getDriveToRedTwo(){
     List.of(
       //new Translation2d(.5, -.5)
       //measured in meters
-      new Translation2d(x, y)
+      //new Translation2d(x, y)
     ),
     new Pose2d(1, 8, new Rotation2d(-45)),
     // Pass config
