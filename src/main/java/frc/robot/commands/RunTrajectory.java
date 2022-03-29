@@ -177,7 +177,7 @@ public Trajectory getDDefenseReset(){
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(0.8, 0, new Rotation2d(0)),
+    new Pose2d(0.2, 0, new Rotation2d(0)),
     // Pass config
     configBackwards);
 return driveToDDefenseReset;
@@ -198,14 +198,14 @@ return driveToRed;
 
 public Trajectory getDriveToRedTwo(){
   Trajectory driveToRedTwo = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.8, 0, new Rotation2d(0)),
+    new Pose2d(0.2, 0, new Rotation2d(0)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
       //measured in meters
-      new Translation2d(0.8, 1)
+      new Translation2d(0.2, 1)
     ),
-    new Pose2d(-1, 1, new Rotation2d(-45)),
+    new Pose2d(-1, 1, new Rotation2d(45)),
     // Pass config
     config);
 return driveToRedTwo;
@@ -213,7 +213,7 @@ return driveToRedTwo;
 
 public Trajectory getDriveToHangarDefense(){
   Trajectory driveToHangarDefense = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(-1, 1, new Rotation2d(-45)),
+    new Pose2d(-1, 1, new Rotation2d(45)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
