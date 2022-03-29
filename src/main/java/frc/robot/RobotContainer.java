@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AppleSauceNumberOne;
 import frc.robot.commands.BlueFish;
 import frc.robot.commands.ClearHopper;
+import frc.robot.commands.ClimbHigh;
 import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberIn;
 import frc.robot.commands.ClimberOut;
@@ -135,16 +136,7 @@ public class RobotContainer {
       .whenPressed(() -> m_Climber.climberUnlock());
 
       new JoystickButton(m_arcade1, 5)
-      .whenPressed(() -> m_Climber.elevateMagic(30000));
-
-      new JoystickButton(m_arcade1, 2)
-      .whenPressed(() -> m_Climber.elevateMagic(10000));
-
-      new JoystickButton(m_arcade1, 3)
-      .whenPressed(() -> m_Climber.rotateMagic(5000));
-
-      new JoystickButton(m_arcade1, 1)
-      .whenPressed(() -> m_Climber.rotateMagic(1000));
+      .whenPressed(new ClimbHigh());
   
     //Flipper
 

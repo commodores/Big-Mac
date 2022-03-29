@@ -169,20 +169,6 @@ public Trajectory getDriveToTerminal(){
 return driveToTermainal;
 }
 
-// Defense play to pick up red balls and throw them in hangar area
-public Trajectory getDDefenseReset(){
-  Trajectory driveToDDefenseReset = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1, 0, new Rotation2d(0)),
-    // Pass through these two interior waypoints
-    List.of(
-      //new Translation2d(.5, -.5)
-    ),
-    new Pose2d(0.2, 0, new Rotation2d(-90)),
-    // Pass config
-    configBackwards);
-return driveToDDefenseReset;
-}
-
 public Trajectory getDriveToRed(){
   Trajectory driveToRed = TrajectoryGenerator.generateTrajectory(
     new Pose2d(0, 0, new Rotation2d(0)),
@@ -196,16 +182,30 @@ public Trajectory getDriveToRed(){
 return driveToRed;
 }
 
+// Defense play to pick up red balls and throw them in hangar area
+public Trajectory getDDefenseReset(){
+  Trajectory driveToDDefenseReset = TrajectoryGenerator.generateTrajectory(
+    new Pose2d(1, 0, new Rotation2d(0)),
+    // Pass through these two interior waypoints
+    List.of(
+      //new Translation2d(.5, -.5)
+    ),
+    new Pose2d(0.2, -2, new Rotation2d(-90)),
+    // Pass config
+    configBackwards);
+return driveToDDefenseReset;
+}
+
 public Trajectory getDriveToRedTwo(){
   Trajectory driveToRedTwo = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(0.2, 0, new Rotation2d(-100)),
+    new Pose2d(0.2, -2, new Rotation2d(-90)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
       //measured in meters
-      new Translation2d(0.2, -3)
+      //new Translation2d(0.2, -3)
     ),
-    new Pose2d(-0.5, -3, new Rotation2d(90)),
+    new Pose2d(-0.5, -3.5, new Rotation2d(0)),
     // Pass config
     config);
 return driveToRedTwo;
@@ -213,12 +213,12 @@ return driveToRedTwo;
 
 public Trajectory getDriveToHangarDefense(){
   Trajectory driveToHangarDefense = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(-0.5, -3, new Rotation2d(90)),
+    new Pose2d(-0.5, -3.5, new Rotation2d(0)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(-2, -3, new Rotation2d()),
+    new Pose2d(0.6, -3, new Rotation2d(0)),
     // Pass config
     config);
 return driveToHangarDefense;

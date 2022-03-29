@@ -18,7 +18,11 @@ public class DDayDefense extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //shoot ball
-      new ShootHigh().withTimeout(1),
+      new ParallelCommandGroup(
+        new RunIntake(),
+        new ShootHigh(),
+        new FireBalls()
+      ).withTimeout(2),
       new ExtendIntake().withTimeout(0.1),
       new ParallelCommandGroup(//go to red ball one
         new RunTrajectory("driveToRed"),
@@ -33,10 +37,10 @@ public class DDayDefense extends SequentialCommandGroup {
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(//drive to hangar
         new RunTrajectory("driveToHangarDefense"),
-        new ShootLow().withTimeout(1.5)
+        new ShootHigh().withTimeout(1.5)
       ),
       new ParallelCommandGroup(
-        new ShootLow(),
+        new ShootHigh(),
         new FireBalls()
       ).withTimeout(2)
     );
