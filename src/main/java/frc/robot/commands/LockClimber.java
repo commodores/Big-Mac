@@ -11,13 +11,13 @@ public class LockClimber extends CommandBase {
   /** Creates a new LockClimber. */
   public LockClimber() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_Climber);
+    addRequirements(RobotContainer.m_climberRotate);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.m_Climber.climberLock();
+    RobotContainer.m_climberRotate.climberLock();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

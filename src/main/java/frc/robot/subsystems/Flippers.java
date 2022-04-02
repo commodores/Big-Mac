@@ -17,11 +17,11 @@ public class Flippers extends SubsystemBase {
   }
 
   public void flipperForward(){
-      flipperSolenoid.set(false);
+      flipperSolenoid.set(true);
   }
 
   public void flipperBack(){
-    flipperSolenoid.set(true);
+    flipperSolenoid.set(false);
   }
 
   @Override

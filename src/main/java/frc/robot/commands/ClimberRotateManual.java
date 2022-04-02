@@ -6,12 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ClimberRotate;
 
-public class ClimberIn extends CommandBase {
-  /** Creates a new ClimberIn. */
-  public ClimberIn() {
+public class ClimberRotateManual extends CommandBase {
+  /** Creates a new ClimberRotateManual. */
+  private final ClimberRotate m_climberRotate;
+  public ClimberRotateManual(ClimberRotate ClimberRotate) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_Climber);
+    this.m_climberRotate = ClimberRotate;
+    addRequirements(ClimberRotate);
   }
 
   // Called when the command is initially scheduled.
@@ -21,14 +24,18 @@ public class ClimberIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_Climber.climberRotate(-.75);
+    if (RobotContainer.m_arcade1.getRawAxis(1) > 0.5 ){
+      m_climberRotate.climberRotate(-.85);
+    } else if(RobotContainer.m_arcade1.getRawAxis(1) < -0.5 ) {
+      m_climberRotate.climberRotate(.85);
+    }else {
+      m_climberRotate.stopClimberRotate();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.m_Climber.stopClimberRotate();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

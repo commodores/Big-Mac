@@ -82,7 +82,6 @@ public final class Constants {
         public static final int kDriverController2Port = 1;
         public static final int kDriverController3Port = 2;
         public static final int kDriverController4Port = 3;
-        public static final int kDriverController5Port = 4;
     }
 
     public static final class IntakeConstants{

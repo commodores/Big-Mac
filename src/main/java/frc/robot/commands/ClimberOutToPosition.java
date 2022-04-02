@@ -22,18 +22,18 @@ public class ClimberOutToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.m_Climber.climberRotate(.75);
+    RobotContainer.m_climberRotate.climberRotate(.85);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.m_Climber.stopClimberRotate();
+    RobotContainer.m_climberRotate.stopClimberRotate();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.m_Climber.getRotateEncoder() >= distance;
+    return RobotContainer.m_climberRotate.getRotateEncoder() >= distance;
   }
 }

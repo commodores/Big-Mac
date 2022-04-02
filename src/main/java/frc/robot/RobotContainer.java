@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ClimberRotate;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -23,22 +24,24 @@ import frc.robot.commands.AppleSauceNumberOne;
 import frc.robot.commands.BlueFish;
 import frc.robot.commands.ClearHopper;
 import frc.robot.commands.ClimbHigh;
-import frc.robot.commands.ClimberDown;
-import frc.robot.commands.ClimberIn;
-import frc.robot.commands.ClimberOut;
-import frc.robot.commands.ClimberUp;
+import frc.robot.commands.ClimberElevateManual;
+import frc.robot.commands.ClimberRotateManual;
 import frc.robot.commands.CrazyShot;
 import frc.robot.commands.DDayDefense;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.FireBalls;
 import frc.robot.commands.FlashyMove;
+import frc.robot.commands.FlippersBack;
+import frc.robot.commands.FlippersForward;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LeeroyJenkins;
+import frc.robot.commands.LockClimber;
 import frc.robot.commands.RedFish;
 import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.ShootHigh;
 import frc.robot.commands.ShootLow;
 import frc.robot.commands.TwoFish;
+import frc.robot.commands.UnLockClimber;
 import frc.robot.commands.DDayDefense;
 
 
@@ -53,16 +56,16 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //public final DriveTrain m_drivetrain = new DriveTrain();
   public final static DriveTrain m_drivetrain = new DriveTrain();
-  public final static Climber m_Climber = new Climber();
+  public final static Climber m_climber = new Climber();
+  public final static ClimberRotate m_climberRotate = new ClimberRotate();
   public final static Intake m_intake = new Intake();
   public final static Shooter m_shooter = new Shooter();
   public final static Flippers m_flippers = new Flippers();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  public final XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
-  public final XboxController m_driver3Controller = new XboxController(OIConstants.kDriverController3Port);
-  public final Joystick m_arcade1 = new Joystick(OIConstants.kDriverController4Port);
-  public final Joystick m_arcade2 = new Joystick(OIConstants.kDriverController4Port);
+  public final static XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
+  public final static Joystick m_arcade1 = new Joystick(OIConstants.kDriverController3Port);
+  public final static Joystick m_arcade2 = new Joystick(OIConstants.kDriverController4Port);
 
   private final SendableChooser<String> m_autoChooser = new SendableChooser<>();
   
@@ -117,39 +120,34 @@ public class RobotContainer {
 
     //Climber
       
-      new JoystickButton(m_driver3Controller, Button.kY.value)
-      .whileHeld(new ClimberUp());
-
-      new JoystickButton(m_driver3Controller, Button.kA.value)
-      .whileHeld(new ClimberDown());
-
-      new JoystickButton(m_driver3Controller, Button.kX.value)
-      .whileHeld(new ClimberOut());
-
-      new JoystickButton(m_driver3Controller, Button.kB.value)
-      .whileHeld(new ClimberIn());
-      
-      new JoystickButton(m_driver3Controller, Button.kLeftBumper.value)
-      .whenPressed(() -> m_Climber.climberLock());
-
-      new JoystickButton(m_driver3Controller, Button.kRightBumper.value)
-      .whenPressed(() -> m_Climber.climberUnlock());
+      new JoystickButton(m_arcade1, 4)
+      .whenPressed(new LockClimber());
 
       new JoystickButton(m_arcade1, 5)
       .whenPressed(new ClimbHigh());
+
+      new JoystickButton(m_arcade1, 6)
+      .whenPressed(new UnLockClimber());
   
     //Flipper
 
-    new JoystickButton(m_driver3Controller, Button.kBack.value)
-    .whenPressed(() -> m_flippers.flipperForward());
+    new JoystickButton(m_arcade1, 3)
+    .whenPressed(new FlippersForward());
 
-    new JoystickButton(m_driver3Controller, Button.kStart.value)
-    .whenPressed(() -> m_flippers.flipperBack());
+    new JoystickButton(m_arcade1, 9)
+    .whenPressed(new FlippersBack());
   }
 
   private void initializeStartup() {
     m_drivetrain.setDefaultCommand(
       new DriveManual(m_drivetrain));
+
+    m_climberRotate.setDefaultCommand(
+      new ClimberRotateManual(m_climberRotate));
+
+    m_climber.setDefaultCommand(
+      new ClimberElevateManual(m_climber));
+    
   }
 
   /**

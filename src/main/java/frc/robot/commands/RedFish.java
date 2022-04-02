@@ -19,7 +19,7 @@ public class RedFish extends SequentialCommandGroup {
       new ExtendIntake().withTimeout(0.1),
       new ParallelCommandGroup(
         new RunTrajectory("threeBallStart"),
-        new RunIntake().withTimeout(2)
+        new RunIntake().withTimeout(2.5)
       ),
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(

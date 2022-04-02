@@ -22,10 +22,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 public class Climber extends SubsystemBase {
   
   private final WPI_TalonFX climberElevate;
-  private final TalonSRX climberRotate;
-  private final Solenoid climberSolenoid;
 
-  private final DigitalInput rotateLimitSwitch;
   private final DigitalInput elevateLimitSwitch;
 
   public Climber() {
@@ -35,22 +32,8 @@ public class Climber extends SubsystemBase {
     climberElevate.setNeutralMode(NeutralMode.Brake);
     climberElevate.set(ControlMode.PercentOutput, 0.0);
     climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    climberElevate.config_kP(0, 0.1);
-    climberElevate.configMotionCruiseVelocity(500);
-    climberElevate.configMotionAcceleration(500);
+
   
-    climberRotate = new TalonSRX(Constants.ClimberConstants.kClimberRotatePort);
-    climberRotate.configFactoryDefault();
-    climberRotate.setNeutralMode(NeutralMode.Brake);
-    climberRotate.set(ControlMode.PercentOutput, 0.0);
-    climberRotate.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    climberRotate.config_kP(0, 0.1);
-    climberRotate.configMotionCruiseVelocity(500);
-    climberRotate.configMotionAcceleration(500);
-
-    climberSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 4);
-
-    rotateLimitSwitch = new DigitalInput(1);
     elevateLimitSwitch = new DigitalInput(2);
     
   }
@@ -59,74 +42,29 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("ClimberRotate Motor", climberRotate.getSelectedSensorPosition());
-    SmartDashboard.putNumber("ClimberElevate Motor", climberElevate.getSelectedSensorPosition());
-    
+    SmartDashboard.putNumber("ClimberElevate Motor", climberElevate.getSelectedSensorPosition());    
   }
+
   public void climberElevate(double speed){
     if(speed > 0 && getElevateLimitSwitch() && getClimberEncoder() <= 270000){
       climberElevate.set(ControlMode.PercentOutput, speed);
-    } else if(speed < 0 && getClimberEncoder() >= 9000){
+    } else if(speed < 0 && getClimberEncoder() >= 4500){
       climberElevate.set(ControlMode.PercentOutput, speed);
     } else {
       climberElevate.set(ControlMode.PercentOutput, 0);
     }
   }
 
-  public void elevateMagic(double position){
-    climberElevate.set(ControlMode.MotionMagic, position);
-  }
-
-  public void climberRotate(double speed){
-    if(getLockState()){
-      if(speed > 0 && getRotateEncoder() <= 7800){
-        climberRotate.set(ControlMode.PercentOutput, speed);
-      } else if(speed < 0 && getRotateLimitSwitch() && getRotateEncoder() >= -1500){
-        climberRotate.set(ControlMode.PercentOutput, speed);
-      } else{
-        climberRotate.set(ControlMode.PercentOutput, 0);
-      }
-    }
-  }
-
-  public void rotateMagic(double position){
-    climberRotate.set(ControlMode.MotionMagic, position);
-  }
-
   public void stopClimberElevate(){
     climberElevate.set(ControlMode.PercentOutput, 0.0);
   }
 
-  public void stopClimberRotate(){
-    climberRotate.set(ControlMode.PercentOutput, 0.0);
-  }
-
-  public void resetClimberEncoders() {
+  public void resetClimberElevateEncoder() {
     climberElevate.setSelectedSensorPosition(0);
-    climberRotate.setSelectedSensorPosition(3055);
   }
 
-  public void climberLock(){
-    climberSolenoid.set(false);
-  }
-
-  public void climberUnlock(){
-    climberSolenoid.set(true);
-  }
-
-  public double getRotateEncoder(){
-    return climberRotate.getSelectedSensorPosition();
-  }
   public double getClimberEncoder(){
     return climberElevate.getSelectedSensorPosition();
-  }
-
-  public boolean getLockState(){
-    return climberSolenoid.get();
-  }
-
-  public boolean getRotateLimitSwitch(){
-    return rotateLimitSwitch.get();
   }
 
   public boolean getElevateLimitSwitch(){

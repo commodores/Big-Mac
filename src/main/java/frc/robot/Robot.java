@@ -42,7 +42,8 @@ public class Robot extends TimedRobot {
       UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
     }).start();
 
-    RobotContainer.m_Climber.resetClimberEncoders();
+    RobotContainer.m_climber.resetClimberElevateEncoder();
+    RobotContainer.m_climberRotate.resetClimberRotateEncoder();
     SmartDashboard.putData("Ready to Climb!", new ReadyToClimb());
     //SmartDashboard.putData("Back to Shooting!", new ReturnClimberToShoot());
   }
@@ -65,7 +66,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Distance", RobotContainer.m_drivetrain.getRightDistance());
 
     SmartDashboard.putNumber("Angle", RobotContainer.m_drivetrain.getDirection());
-    SmartDashboard.putBoolean("Climber Lock", RobotContainer.m_Climber.getLockState());
+    SmartDashboard.putBoolean("Climber Lock", RobotContainer.m_climberRotate.getLockState());
   }
   
 
@@ -74,7 +75,8 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     RobotContainer.m_shooter.setLowShot();
     RobotContainer.m_intake.retractIntake();
-    RobotContainer.m_Climber.climberLock();
+    RobotContainer.m_climberRotate.climberLock();
+    RobotContainer.m_flippers.flipperBack();
   }
 
   @Override
