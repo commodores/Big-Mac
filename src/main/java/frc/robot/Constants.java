@@ -67,10 +67,10 @@ public final class Constants {
 
         public static final double kShooterVoltageRampRate = 0.2;
 
-        public static final double kShooterP = 0.0055;
+        public static final double kShooterP = 0.0052;
         public static final double kShooterI = 0; //1
         public static final double kShooterD = 0; //5
-        public static final double kShooterF = 0.04; // 0.058
+        public static final double kShooterF = 0.039; // 0.04
 
         public static final int kAllowableError = 50;
         public static final int kPIDLoopRate = 10; //In ms

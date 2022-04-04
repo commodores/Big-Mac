@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -32,6 +33,8 @@ public class Climber extends SubsystemBase {
     climberElevate.setNeutralMode(NeutralMode.Brake);
     climberElevate.set(ControlMode.PercentOutput, 0.0);
     climberElevate.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+
+    climberElevate.configStatorCurrentLimit(DriveConstants.TALON_CURRENT_LIMIT);
 
   
     elevateLimitSwitch = new DigitalInput(2);

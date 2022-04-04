@@ -51,7 +51,7 @@ public class ClimberRotate extends SubsystemBase {
   
   public void climberRotate(double speed){
     if(getLockState()){
-      if(speed > 0 && getRotateEncoder() <= 7800){
+      if(speed > 0 && getRotateEncoder() <= 8500){
         climberRotate.set(ControlMode.PercentOutput, speed);
       } else if(speed < 0 && getRotateLimitSwitch() && getRotateEncoder() >= -1500){
         climberRotate.set(ControlMode.PercentOutput, speed);

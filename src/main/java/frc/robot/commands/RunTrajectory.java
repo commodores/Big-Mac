@@ -109,7 +109,7 @@ public Trajectory getThreeBallStart(){
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(1.9, .75, new Rotation2d(0)),
+    new Pose2d(2.2, .75, new Rotation2d(0)),
     // Pass config
     config);
 return threeBallStart;
@@ -117,7 +117,7 @@ return threeBallStart;
 
 public Trajectory getDriveOnTarmacThreeBallPath(){
   Trajectory driveOnTarmacThreeBall = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(1.9, .75, new Rotation2d(0)),
+      new Pose2d(2.2, .75, new Rotation2d(0)),
       // Pass through these two interior waypoints
       List.of(
         //new Translation2d(1, 0)
@@ -135,7 +135,7 @@ public Trajectory getDriveToThirdBall(){
       List.of(
         //new Translation2d(.5, -.5)
       ),
-      new Pose2d(1.8, -2, new Rotation2d(-45)),//was 1.5 for columbus 1.9 before columbus
+      new Pose2d(1.65, -2, new Rotation2d(-45)),//was 1.5 for columbus 1.9 before columbus
       // Pass config
       config);
   return driveToThirdBall;
@@ -143,7 +143,7 @@ public Trajectory getDriveToThirdBall(){
 
 public Trajectory getDriveToThirdBallShoot(){
   Trajectory driveToThirdBallShoot = TrajectoryGenerator.generateTrajectory(
-    new Pose2d(1.8, -2, new Rotation2d(-45)),
+    new Pose2d(1.65, -2, new Rotation2d(-45)),
     // Pass through these interior waypoints
     List.of(
       //new Translation2d(.5, -.5)
