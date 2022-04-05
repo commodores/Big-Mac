@@ -40,6 +40,8 @@ public class Robot extends TimedRobot {
 
     new Thread(()-> {
       UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+      camera.setFPS(10);
+      camera.setResolution(320, 240);
     }).start();
 
     RobotContainer.m_climber.resetClimberElevateEncoder();

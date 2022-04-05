@@ -22,9 +22,9 @@ public class ClimbHigh extends SequentialCommandGroup {
       new ClimberOutToPosition(0),
       new ClimberUpToPosition(260000),
       new ClimberOutToPosition(8500),
-      new ClimberDownToPosition(200000).withTimeout(3),
-      new FlippersBack()
-      
+      new ClimberDownToPosition(220000),
+      new FlippersBack(),
+      new ClimberDownToPosition(100000)      
     );
   }
 }
