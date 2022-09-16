@@ -94,7 +94,6 @@ public final class Constants {
 
     public static final class ClimberConstants{
         public static final int kClimberElevatePort = 20;
-       public static final int kClimberRotatePort = 21;
     }
 }
 

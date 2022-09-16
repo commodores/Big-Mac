@@ -10,8 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.ClimberRotate;
+import frc.robot.subsystems.ClimberNew;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -23,9 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.AppleSauceNumberOne;
 import frc.robot.commands.BlueFish;
 import frc.robot.commands.ClearHopper;
-import frc.robot.commands.ClimbHigh;
 import frc.robot.commands.ClimberElevateManual;
-import frc.robot.commands.ClimberRotateManual;
 import frc.robot.commands.CrazyShot;
 import frc.robot.commands.DDayDefense;
 import frc.robot.commands.DriveManual;
@@ -56,8 +53,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //public final DriveTrain m_drivetrain = new DriveTrain();
   public final static DriveTrain m_drivetrain = new DriveTrain();
-  public final static Climber m_climber = new Climber();
-  public final static ClimberRotate m_climberRotate = new ClimberRotate();
+  public final static ClimberNew m_climber = new ClimberNew();
   public final static Intake m_intake = new Intake();
   public final static Shooter m_shooter = new Shooter();
   public final static Flippers m_flippers = new Flippers();
@@ -123,9 +119,6 @@ public class RobotContainer {
       new JoystickButton(m_arcade1, 4)
       .whenPressed(new LockClimber());
 
-      new JoystickButton(m_arcade1, 5)
-      .whenPressed(new ClimbHigh());
-
       new JoystickButton(m_arcade1, 6)
       .whenPressed(new UnLockClimber());
   
@@ -141,9 +134,6 @@ public class RobotContainer {
   private void initializeStartup() {
     m_drivetrain.setDefaultCommand(
       new DriveManual(m_drivetrain));
-
-    m_climberRotate.setDefaultCommand(
-      new ClimberRotateManual(m_climberRotate));
 
     m_climber.setDefaultCommand(
       new ClimberElevateManual(m_climber));

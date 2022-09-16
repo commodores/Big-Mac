@@ -16,7 +16,7 @@ public class ReturnClimberToShoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new UnLockClimber(),
-      new ClimberShootingPosition().withTimeout(2),
+      //new ClimberShootingPosition().withTimeout(2),
       new LockClimber()
     );
   }
