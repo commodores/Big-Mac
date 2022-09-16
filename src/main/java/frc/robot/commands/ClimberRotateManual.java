@@ -6,7 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.ClimberRotate;
+import frc.robot.subsystems.ClimberNew;
 
 public class ClimberRotateManual extends CommandBase {
   /** Creates a new ClimberRotateManual. */
