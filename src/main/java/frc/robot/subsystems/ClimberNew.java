@@ -4,22 +4,18 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import frc.robot.commands.ClimberDownToPosition;
-import frc.robot.commands.ClimberUpToPosition;
 
 public class ClimberNew extends SubsystemBase {
   /** Creates a new ClimberNew.
@@ -27,7 +23,7 @@ public class ClimberNew extends SubsystemBase {
   */
 
   private final WPI_TalonFX climberNew;
-  private final Solenoid climberSolenoid;
+  private final DoubleSolenoid climberSolenoid;
 
   public ClimberNew() {
     
@@ -37,7 +33,8 @@ public class ClimberNew extends SubsystemBase {
     climberNew.set(ControlMode.PercentOutput, 0.0);
     climberNew.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
-    climberSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, 4);
+    climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2,4);
+
   }
 
   @Override
@@ -48,9 +45,17 @@ public class ClimberNew extends SubsystemBase {
 
   public void climberElevate(double speed) {
     if (getLockState()) {
-      if(speed > 0 && getClimberEncoder() <= 270000){
+      /*if(speed < 0 && getClimberEncoder() <= 270000){
         climberNew.set(ControlMode.PercentOutput, speed);
       } else if(speed < 0 && getClimberEncoder() >= 4500){
+        climberNew.set(ControlMode.PercentOutput, speed);
+      } else {
+        climberNew.set(ControlMode.PercentOutput, 0);
+      }*/
+
+      if(speed < 0){
+        climberNew.set(ControlMode.PercentOutput, speed);
+      } else if(speed > 0){
         climberNew.set(ControlMode.PercentOutput, speed);
       } else {
         climberNew.set(ControlMode.PercentOutput, 0);
@@ -59,15 +64,20 @@ public class ClimberNew extends SubsystemBase {
   }
 
   public boolean getLockState() {
-    return climberSolenoid.get();
+    var state = climberSolenoid.get();
+    if(state == Value.kForward){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void climberLock(){
-    climberSolenoid.set(false);
+    climberSolenoid.set(Value.kReverse);;
   }
 
   public void climberUnlock(){
-    climberSolenoid.set(true);
+    climberSolenoid.set(Value.kForward);
   }
 
   public void resetClimberElevateEncoder() {

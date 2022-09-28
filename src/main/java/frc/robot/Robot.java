@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 
     RobotContainer.m_climber.resetClimberElevateEncoder();
     SmartDashboard.putData("Ready to Climb!", new ReadyToClimb());
+    RobotContainer.m_climber.climberUnlock();
     //SmartDashboard.putData("Back to Shooting!", new ReturnClimberToShoot());
   }
 
@@ -76,8 +77,6 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     RobotContainer.m_shooter.setLowShot();
     RobotContainer.m_intake.retractIntake();
-    RobotContainer.m_climber.climberLock();
-    RobotContainer.m_flippers.flipperBack();
   }
 
   @Override

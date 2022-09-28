@@ -14,7 +14,6 @@ import frc.robot.subsystems.ClimberNew;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Flippers;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,8 +27,6 @@ import frc.robot.commands.DDayDefense;
 import frc.robot.commands.DriveManual;
 import frc.robot.commands.FireBalls;
 import frc.robot.commands.FlashyMove;
-import frc.robot.commands.FlippersBack;
-import frc.robot.commands.FlippersForward;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.LeeroyJenkins;
 import frc.robot.commands.LockClimber;
@@ -56,7 +53,6 @@ public class RobotContainer {
   public final static ClimberNew m_climber = new ClimberNew();
   public final static Intake m_intake = new Intake();
   public final static Shooter m_shooter = new Shooter();
-  public final static Flippers m_flippers = new Flippers();
   
   public final static XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public final static XboxController m_driver2Controller = new XboxController(OIConstants.kDriverController2Port);
@@ -115,28 +111,26 @@ public class RobotContainer {
         .whenPressed(() -> m_intake.retractIntake());        
 
     //Climber
-      
-      new JoystickButton(m_arcade1, 4)
+    /*  
+      new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(new LockClimber());
 
-      new JoystickButton(m_arcade1, 6)
+      new JoystickButton(m_driverController, Button.kY.value )
       .whenPressed(new UnLockClimber());
-  
-    //Flipper
 
-    new JoystickButton(m_arcade1, 3)
-    .whenPressed(new FlippersForward());
+      new JoystickButton(m_driverController, Button.kLeftBumper.value)
+      .whileHeld(() -> m_climber.climberElevate(1))
+      .whenReleased(()-> m_climber.climberElevate(0));
 
-    new JoystickButton(m_arcade1, 9)
-    .whenPressed(new FlippersBack());
+      new JoystickButton(m_driverController, Button.kRightBumper.value)
+      .whileHeld(() -> m_climber.climberElevate(-1))
+      .whenReleased(()-> m_climber.climberElevate(0));
+    */
   }
 
   private void initializeStartup() {
     m_drivetrain.setDefaultCommand(
       new DriveManual(m_drivetrain));
-
-    m_climber.setDefaultCommand(
-      new ClimberElevateManual(m_climber));
     
   }
 
