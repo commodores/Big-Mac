@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.ClimberNew;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.NeoDriveTrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants.OIConstants;
@@ -49,7 +49,7 @@ import frc.robot.commands.DDayDefense;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //public final DriveTrain m_drivetrain = new DriveTrain();
-  public final static DriveTrain m_drivetrain = new DriveTrain();
+  public final static NeoDriveTrain m_drivetrain = new NeoDriveTrain();
   public final static ClimberNew m_climber = new ClimberNew();
   public final static Intake m_intake = new Intake();
   public final static Shooter m_shooter = new Shooter();

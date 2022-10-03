@@ -7,6 +7,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -29,15 +30,17 @@ public final class Constants {
 
         public static final int driveTimeout = 30;
 
+        public static final double drivetrainEncoderConversionFactor = Units.inchesToMeters(6 * Math.PI) / 13;
+
         public static final int kEncoderCPR = 2048; //https://docs.ctre-phoenix.com/en/latest/ch14_MCSensor.html
         public static final double kWheelDiameterMeters = 0.1016; //4 inches
         public static final double kGearReduction = 7;
         public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR) / kGearReduction; 
         public static final double kWheelDistancePerPulse = kEncoderDistancePerPulse/ kGearReduction; //DISTANCE PER PULSE OF WHEEL= (OUTER CIRCUMFERENCE OF WHEEL)/(ENCODER CPR*GEAR REDUCTION)
 
-        public static final double ksVolts = 0.68824;
-        public static final double kvVoltSecondsPerMeter = 2.389;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.4162;
+        public static final double ksVolts = 0.188;//0.68824;
+        public static final double kvVoltSecondsPerMeter = 3.51;//2.389;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.497;//0.4162;
         public static final double kPDriveVel = .5; //2.24;   // 2.29
 
         public static final double kTrackwidthMeters = 0.648716;//CAD //.5715 Tape //0.59825 From Char Tool
