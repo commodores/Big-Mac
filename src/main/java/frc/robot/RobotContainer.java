@@ -111,7 +111,7 @@ public class RobotContainer {
         .whenPressed(() -> m_intake.retractIntake());        
 
     //Climber
-    /*  
+      
       new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(new LockClimber());
 
@@ -125,7 +125,7 @@ public class RobotContainer {
       new JoystickButton(m_driverController, Button.kRightBumper.value)
       .whileHeld(() -> m_climber.climberElevate(-1))
       .whenReleased(()-> m_climber.climberElevate(0));
-    */
+    
   }
 
   private void initializeStartup() {

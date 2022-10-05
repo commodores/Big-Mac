@@ -110,7 +110,7 @@ public class DriveTrain extends SubsystemBase {
   }  
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    m_drive.curvatureDrive(m_speedSlew.calculate(speed*.7), rotation*.6, quickturn);
+    m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.6, quickturn);
   }
 
   public void resetEncoders() {
