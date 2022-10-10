@@ -32,7 +32,7 @@ public class ClimberNew extends SubsystemBase {
     climberNew.configFactoryDefault();
     climberNew.setNeutralMode(NeutralMode.Brake);
     climberNew.set(ControlMode.PercentOutput, 0.0);
-    climberNew.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 40, .5));
+    climberNew.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 50, 60, .5));
     climberNew.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     climberSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2,4);
