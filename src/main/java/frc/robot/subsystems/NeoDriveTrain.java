@@ -56,8 +56,8 @@ public class NeoDriveTrain extends SubsystemBase {
     leftSlave0.follow(leftMaster);
     rightSlave0.follow(rightMaster);
 
-    rightMaster.setOpenLoopRampRate(.5);
-    leftMaster.setOpenLoopRampRate(.5);
+    rightMaster.setOpenLoopRampRate(.45);
+    leftMaster.setOpenLoopRampRate(.45);
 
     leftEncoder.setPosition(0);
     rightEncoder.setPosition(0);
@@ -100,7 +100,7 @@ public class NeoDriveTrain extends SubsystemBase {
   }
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    m_drive.curvatureDrive(speed, rotation *.65, quickturn);
+    m_drive.curvatureDrive(speed, rotation * .8, quickturn);
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
