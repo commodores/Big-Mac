@@ -5,17 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-//import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.NeoDriveTrain;
+import frc.robot.subsystems.DriveTrain;
+//import frc.robot.subsystems.NeoDriveTrain;
 import frc.robot.RobotContainer;
 
 public class DriveManual extends CommandBase {
   /** Creates a new DriveManual. */
-  private final NeoDriveTrain m_drivetrain;
-  public DriveManual(NeoDriveTrain NeoDriveTrain) {
+  private final DriveTrain m_drivetrain;
+  public DriveManual(DriveTrain DriveTrain) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.m_drivetrain = NeoDriveTrain;
-    addRequirements(NeoDriveTrain);
+    this.m_drivetrain = DriveTrain;
+    addRequirements(DriveTrain);
   }
 
   // Called when the command is initially scheduled.

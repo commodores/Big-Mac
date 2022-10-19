@@ -36,7 +36,7 @@ public class DriveTrain extends SubsystemBase {
   private DifferentialDriveOdometry m_odometry;
 
   private SlewRateLimiter m_speedSlew;
-
+  private SlewRateLimiter m_turnSlew;
 
   public DriveTrain() {//DriveTrain Electronics
     rightMasterMotor = new WPI_TalonFX(DriveConstants.kRightMasterPort);
@@ -47,7 +47,8 @@ public class DriveTrain extends SubsystemBase {
 
     pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
 
-    m_speedSlew = new SlewRateLimiter(4);
+    m_speedSlew = new SlewRateLimiter(2);
+    m_turnSlew = new SlewRateLimiter(6);
 
   //Set Electronics To Default
     rightMasterMotor.configFactoryDefault();
@@ -110,7 +111,7 @@ public class DriveTrain extends SubsystemBase {
   }  
 
   public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    m_drive.curvatureDrive(m_speedSlew.calculate(speed), rotation*.6, quickturn);
+    m_drive.curvatureDrive(m_speedSlew.calculate(speed), m_turnSlew.calculate(rotation), quickturn);
   }
 
   public void resetEncoders() {

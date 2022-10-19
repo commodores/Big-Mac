@@ -37,7 +37,7 @@ public class NeoDriveTrain extends SubsystemBase {
 
   PigeonIMU pigeon = new PigeonIMU(DriveConstants.kPigeonPort);
 
-  DifferentialDrive m_drive = new DifferentialDrive(leftMaster, rightMaster);
+  DifferentialDrive m_drive;
   
   private double[] yawPitchRoll = new double[3];
   private double[] xyz_dps = new double[3];
@@ -66,11 +66,13 @@ public class NeoDriveTrain extends SubsystemBase {
     leftMaster.setIdleMode(IdleMode.kBrake);
 
     leftMaster.setInverted(true);
-    //m_drive.setRightSideInverted(false);
+    //rightMaster.setInverted(true);
+
+    m_drive = new DifferentialDrive(leftMaster, rightMaster);
     
     m_drive.setSafetyEnabled(false);
 
-    resetEncoders();
+    //resetEncoders();
 
     leftEncoder.setPositionConversionFactor(DriveConstants.drivetrainEncoderConversionFactor);
     leftEncoder.setVelocityConversionFactor(DriveConstants.drivetrainEncoderConversionFactor);
@@ -78,35 +80,77 @@ public class NeoDriveTrain extends SubsystemBase {
     rightEncoder.setPositionConversionFactor(DriveConstants.drivetrainEncoderConversionFactor);
     rightEncoder.setVelocityConversionFactor(DriveConstants.drivetrainEncoderConversionFactor);
 
-    m_odometry = new DifferentialDriveOdometry(getIMUHeading());
+    m_odometry = new DifferentialDriveOdometry(new Rotation2d(0));
 
-    setDefaultCommand(new DriveManual(this));
+    //setDefaultCommand(new DriveManual(this));
 
   }
 
   @Override
   public void periodic() {
-    m_odometry.update(getIMUHeading(), getLeftEncoder(), getRightEncoder());
+    m_odometry.update(
+      Rotation2d.fromDegrees(getDirection()),
+      getLeftDistance(),
+      getRightDistance()
+    );
   }
 
-  public void arcadeDrive(double moveSpeed, double rotateSpeed)
-  {
-    m_drive.arcadeDrive(moveSpeed,-rotateSpeed);
-  }
-
-  public void tankDrive(double leftSpeed, double rightSpeed)
-  {
-    m_drive.tankDrive(leftSpeed,rightSpeed);
-  }
-
-  public void curvatureDrive(double speed, double rotation, boolean quickturn){
-    m_drive.curvatureDrive(speed, rotation * .8, quickturn);
+  public void arcadeDrive(double fwd, double rot) {
+    m_drive.arcadeDrive(fwd, rot);
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMaster.setVoltage(leftVolts);
-    rightMaster.setVoltage(-rightVolts);
-    m_drive.feed();
+    rightMaster.setVoltage(rightVolts);
+  }  
+
+  public void curvatureDrive(double speed, double rotation, boolean quickturn){
+    m_drive.curvatureDrive(speed, rotation * .6, quickturn);
+  }
+
+  public void resetEncoders() {
+    leftEncoder.setPosition(0);
+    rightEncoder.setPosition(0);
+    
+  }
+
+  public void resetDirection() {
+    pigeon.setFusedHeading(0);
+  }
+  
+  public void zeroSensors() {
+    resetEncoders();
+    resetDirection();
+    resetPose();    
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    return new DifferentialDriveWheelSpeeds(getLeftSpeed(), getRightSpeed());
+  }
+
+  public double getDirection() {
+    return Math.IEEEremainder(pigeon.getFusedHeading(), 360);
+  }
+
+  public double getLeftSpeed() {
+    return leftEncoder.getVelocity();
+  }
+
+  public double getRightSpeed() {
+    return rightEncoder.getVelocity();
+  }
+
+  public double getAverageDistance() {
+    return (getLeftDistance() + getRightDistance()) / 2;
+  }
+
+   // distance in meters
+   public double getLeftDistance() {
+    return leftEncoder.getPosition();
+  }
+
+  public double getRightDistance() {
+    return rightEncoder.getPosition();
   }
 
 
@@ -121,15 +165,6 @@ public class NeoDriveTrain extends SubsystemBase {
     );
   }
 
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(getLeftSpeed(), getRightSpeed());
-  }
-
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    m_odometry.resetPosition(pose, getIMUHeading());
-  }
-
   public void resetPose() {
     m_odometry.resetPosition(
       new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)),
@@ -137,65 +172,16 @@ public class NeoDriveTrain extends SubsystemBase {
     );
   }
 
-  public void zeroSensors() {
-    resetEncoders();
-    resetDirection();
-    resetPose();    
-  }
-
-  public void resetDirection() {
-    pigeon.setFusedHeading(0);
-  }
-
-  public void resetEncoders()
-  {
-    leftEncoder.setPosition(0);
-    rightEncoder.setPosition(0);
-  }
-
-  public double getLeftEncoder() {
-    return leftEncoder.getPosition();
-  }
-
-  public double getRightEncoder() {
-    return rightEncoder.getPosition();
-  }
-
-  public double getAverageDistance() {
-    return (leftEncoder.getPosition() + rightEncoder.getPosition())/ 2;
-  }
-
-  public double getAverageSpeed() {
-    return (leftEncoder.getVelocity() + rightEncoder.getVelocity())/ 2;
-  }
-
-  public double getLeftSpeed() {
-    return leftEncoder.getVelocity();
-  }
-
-  public double getRightSpeed() {
-    return rightEncoder.getVelocity();
-  }
-
-  public void setMaxOutput(double maxOutput){
+  public void setMaxOutput(double maxOutput) {
     m_drive.setMaxOutput(maxOutput);
-  }
-  
-  public Rotation2d getIMUHeading() {
-        pigeon.getYawPitchRoll(yawPitchRoll);
-        SmartDashboard.putString("YawPitchRoll", "[0]: "+yawPitchRoll[0]+"; [1]: "+yawPitchRoll[1]+"; [2]: "+yawPitchRoll[2]+"; Fused: "+pigeon.getFusedHeading());
-        return Rotation2d.fromDegrees(yawPitchRoll[0]);
-  }
-
-  public double getTurnRate() {
-    pigeon.getRawGyro(xyz_dps);
-    double angleRate = xyz_dps[2];
-    return angleRate;
   }
 
   public double getCurrentAngle() {
-    pigeon.getFusedHeading(fusionStatus);
-    return fusionStatus.heading;
+    return pigeon.getAbsoluteCompassHeading();
   }
-  
+
+
 }
+
+
+  

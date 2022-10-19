@@ -24,7 +24,7 @@ public class RedFish extends SequentialCommandGroup {
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(
         new RunTrajectory("driveOnTarmacThreeBall"),
-        new ShootHigh().withTimeout(1.5)
+        new ShootHigh().withTimeout(2)
       ),
       new ParallelCommandGroup(
         new ShootHigh(),
@@ -37,7 +37,7 @@ public class RedFish extends SequentialCommandGroup {
       new StopAutoIntake().withTimeout(0.1),
       new ParallelCommandGroup(
         new RunTrajectory("driveToThirdBallShoot"),
-        new ShootHigh().withTimeout(1.5)
+        new ShootHigh().withTimeout(2)
       ),
       new ParallelCommandGroup(
         new ShootHigh(),

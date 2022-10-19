@@ -135,7 +135,7 @@ public Trajectory getDriveToThirdBall(){
       List.of(
         //new Translation2d(.5, -.5)
       ),
-      new Pose2d(1.65, -2, new Rotation2d(-45)),//was 1.5 for columbus 1.9 before columbus
+      new Pose2d(1.92, -2, new Rotation2d(-45)),//was 1.5 for columbus 1.9 before columbus
       // Pass config
       config);
   return driveToThirdBall;
@@ -148,7 +148,7 @@ public Trajectory getDriveToThirdBallShoot(){
     List.of(
       //new Translation2d(.5, -.5)
     ),
-    new Pose2d(.7, 0, new Rotation2d(0)),
+    new Pose2d(.7, 0, new Rotation2d(-.25)),
     // Pass config
     configBackwards);
 return driveToThirdBallShoot;
